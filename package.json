@@ -1,0 +1,28 @@
+{
+  "name": "forgeai-multiagent-system",
+  "version": "1.0.0",
+  "description": "ForgeAI Multi-Agent System - Autonomous AI agents that collaborate to build and scale the ForgeAI startup",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "agents:run": "tsx src/index.ts run",
+    "agents:status": "tsx src/index.ts status",
+    "agents:task": "tsx src/index.ts task"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "eventemitter3": "^5.0.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
