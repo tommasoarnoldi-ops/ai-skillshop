@@ -9,6 +9,7 @@ import { Orchestrator } from './core/orchestrator.js';
 import { BootstrapWorkflow } from './workflows/bootstrap.js';
 import { StartupWorkflows } from './workflows/startup-presets.js';
 import { startRepl } from './repl.js';
+import { createApiServer } from './server/api.js';
 import type { AgentId } from './types/index.js';
 
 const BANNER = `
@@ -428,6 +429,24 @@ program
     console.log(BANNER);
     const orchestrator = createOrchestrator(false);
     console.log(orchestrator.getMetricsReport());
+  });
+
+// ════════════════════════════════════════════════
+// SERVE — Web API + Dashboard
+// ════════════════════════════════════════════════
+program
+  .command('serve')
+  .description('Start HTTP API server with web dashboard')
+  .option('-p, --port <number>', 'Port to listen on', '3000')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .action((opts: { port: string; verbose: boolean }) => {
+    console.log(BANNER);
+    const { start } = createApiServer({
+      apiKey: getApiKey(),
+      port: parseInt(opts.port, 10),
+      verbose: opts.verbose,
+    });
+    start();
   });
 
 // ════════════════════════════════════════════════

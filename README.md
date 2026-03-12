@@ -73,6 +73,23 @@ npm run demo
 
 ## Usage
 
+### Web Dashboard & API
+
+```bash
+# Start HTTP server with web dashboard
+npm run serve
+
+# Opens at http://localhost:3000/dashboard
+# API at http://localhost:3000/api/health
+# WebSocket at ws://localhost:3000
+```
+
+The web dashboard provides:
+- Real-time agent chat interface
+- Workflow launcher (sprint, debate, chat, feature spec, market analysis)
+- Live WebSocket events
+- System stats, knowledge base, metrics, health monitoring
+
 ### Interactive REPL
 
 ```bash
@@ -130,6 +147,9 @@ npm run dev -- chat "Strategia di lancio Q1" --participants ceo,cto,marketing,pr
 
 # Full project dashboard
 npm run dev -- dashboard
+
+# Web server with API + dashboard
+npm run dev -- serve --port 3000 -v
 
 # Workflow presets
 npm run dev -- preset feature-spec "Scanner macchinari"
@@ -218,10 +238,15 @@ src/
 ├── workflows/                  # Pre-built workflows
 │   ├── bootstrap.ts            # Full ForgeAI app generation
 │   └── startup-presets.ts      # Common startup task presets
+├── server/                    # HTTP API + WebSocket
+│   ├── api.ts                 # Express REST API + WS server
+│   └── index.ts               # Server entry point
 ├── repl.ts                     # Interactive REPL
 ├── index.ts                    # CLI entry point
 └── types/
     └── index.ts                # TypeScript types
+public/
+└── index.html                  # Web dashboard SPA
 ```
 
 ## Testing
@@ -234,7 +259,7 @@ npm test
 npm run test:watch
 ```
 
-46 tests across 6 suites covering: MessageBus, TaskBoard, KnowledgeBase, ErrorRecovery, HealthMonitor, ConversationManager.
+58 tests across 7 suites covering: MessageBus, TaskBoard, KnowledgeBase, ErrorRecovery, HealthMonitor, ConversationManager, API Server.
 
 ## About ForgeAI
 

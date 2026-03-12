@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForgeAI Multi-Agent Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --border: #2a2d3a;
+      --text: #e4e4e7; --muted: #71717a; --accent: #6366f1;
+      --green: #22c55e; --yellow: #eab308; --red: #ef4444; --blue: #3b82f6;
+    }
+    body { font-family: 'SF Mono', 'Fira Code', monospace; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+    .header h1 { font-size: 18px; color: var(--accent); }
+    .header .status { font-size: 12px; color: var(--green); }
+    .container { display: grid; grid-template-columns: 280px 1fr 320px; height: calc(100vh - 56px); }
+
+    /* Sidebar */
+    .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 16px; overflow-y: auto; }
+    .agent-card { padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+    .agent-card:hover, .agent-card.active { border-color: var(--accent); }
+    .agent-name { font-weight: 600; font-size: 13px; }
+    .agent-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .agent-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-right: 6px; }
+    .section-title { font-size: 11px; text-transform: uppercase; color: var(--muted); margin: 16px 0 8px; letter-spacing: 1px; }
+
+    /* Main */
+    .main { padding: 24px; overflow-y: auto; }
+    .chat-area { display: flex; flex-direction: column; height: 100%; }
+    .messages { flex: 1; overflow-y: auto; padding-bottom: 16px; }
+    .message { margin-bottom: 16px; }
+    .message .sender { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+    .message .content { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; max-height: 400px; overflow-y: auto; }
+    .message.user .sender { color: var(--green); }
+    .message.system .content { border-color: var(--yellow); background: rgba(234, 179, 8, 0.05); }
+
+    .input-area { display: flex; gap: 8px; }
+    .input-area select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 6px; font-size: 13px; font-family: inherit; }
+    .input-area input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 6px; font-size: 13px; font-family: inherit; outline: none; }
+    .input-area input:focus { border-color: var(--accent); }
+    .input-area button { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 13px; font-family: inherit; cursor: pointer; }
+    .input-area button:hover { opacity: 0.9; }
+    .input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Right panel */
+    .panel { background: var(--surface); border-left: 1px solid var(--border); padding: 16px; overflow-y: auto; }
+    .panel-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    .panel-card h3 { font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .stat .val { color: var(--accent); font-weight: 600; }
+
+    .workflow-btn { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 6px; font-size: 12px; font-family: inherit; cursor: pointer; margin-bottom: 6px; text-align: left; }
+    .workflow-btn:hover { border-color: var(--accent); }
+
+    .event-log { font-size: 11px; color: var(--muted); }
+    .event-log .event { padding: 4px 0; border-bottom: 1px solid var(--border); }
+    .event-log .event-time { color: var(--accent); }
+
+    .loading { display: inline-block; }
+    .loading::after { content: ''; animation: dots 1.5s infinite; }
+    @keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar, .panel { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>ForgeAI</h1>
+    <span class="status" id="connection-status">Connecting...</span>
+  </div>
+
+  <div class="container">
+    <!-- Sidebar: Agents -->
+    <div class="sidebar">
+      <div class="section-title">Agents</div>
+      <div id="agents-list">
+        <div class="agent-card active" data-agent="ceo">
+          <span class="agent-dot"></span><span class="agent-name">CEO</span>
+          <div class="agent-role">Strategy & Coordination</div>
+        </div>
+        <div class="agent-card" data-agent="cto">
+          <span class="agent-dot"></span><span class="agent-name">CTO</span>
+          <div class="agent-role">Technical Architecture</div>
+        </div>
+        <div class="agent-card" data-agent="product-manager">
+          <span class="agent-dot"></span><span class="agent-name">Product Manager</span>
+          <div class="agent-role">Product Strategy & UX</div>
+        </div>
+        <div class="agent-card" data-agent="developer">
+          <span class="agent-dot"></span><span class="agent-name">Developer</span>
+          <div class="agent-role">Full-Stack Implementation</div>
+        </div>
+        <div class="agent-card" data-agent="marketing">
+          <span class="agent-dot"></span><span class="agent-name">Marketing</span>
+          <div class="agent-role">Go-to-Market</div>
+        </div>
+        <div class="agent-card" data-agent="qa-devops">
+          <span class="agent-dot"></span><span class="agent-name">QA/DevOps</span>
+          <div class="agent-role">Testing & CI/CD</div>
+        </div>
+      </div>
+
+      <div class="section-title">Quick Workflows</div>
+      <button class="workflow-btn" onclick="runWorkflow('sprint')">Sprint Planning</button>
+      <button class="workflow-btn" onclick="runWorkflow('debate')">Agent Debate</button>
+      <button class="workflow-btn" onclick="runWorkflow('chat')">Team Chat</button>
+      <button class="workflow-btn" onclick="runWorkflow('feature')">Feature Spec</button>
+      <button class="workflow-btn" onclick="runWorkflow('market')">Market Analysis</button>
+    </div>
+
+    <!-- Main: Chat -->
+    <div class="main">
+      <div class="chat-area">
+        <div class="messages" id="messages">
+          <div class="message system">
+            <div class="sender">SYSTEM</div>
+            <div class="content">ForgeAI Multi-Agent System ready. Select an agent and ask a question, or use the workflow buttons.</div>
+          </div>
+        </div>
+        <div class="input-area">
+          <select id="agent-select">
+            <option value="ceo">CEO</option>
+            <option value="cto">CTO</option>
+            <option value="product-manager">PM</option>
+            <option value="developer">Dev</option>
+            <option value="marketing">Mktg</option>
+            <option value="qa-devops">QA</option>
+          </select>
+          <input type="text" id="user-input" placeholder="Ask the agent..." onkeydown="if(event.key==='Enter')sendMessage()">
+          <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Stats -->
+    <div class="panel">
+      <div class="panel-card">
+        <h3>System Stats</h3>
+        <div class="stat"><span>Agents</span><span class="val">6</span></div>
+        <div class="stat"><span>Systems</span><span class="val">18</span></div>
+        <div class="stat"><span>Messages</span><span class="val" id="stat-messages">0</span></div>
+        <div class="stat"><span>Tasks</span><span class="val" id="stat-tasks">0</span></div>
+      </div>
+
+      <div class="panel-card">
+        <h3>Actions</h3>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/status', 'Status')">View Status</button>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/dashboard', 'Dashboard')">Full Dashboard</button>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/kb', 'Knowledge Base')">Knowledge Base</button>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/health-report', 'Health')">Health Report</button>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/metrics', 'Metrics')">Metrics</button>
+        <button class="workflow-btn" onclick="fetchEndpoint('/api/messages', 'Messages')">Message Log</button>
+      </div>
+
+      <div class="panel-card">
+        <h3>Live Events</h3>
+        <div class="event-log" id="event-log">
+          <div class="event">Waiting for events...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ws;
+    let messageCount = 0;
+
+    // WebSocket connection
+    function connectWS() {
+      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      ws = new WebSocket(`${protocol}//${location.host}`);
+
+      ws.onopen = () => {
+        document.getElementById('connection-status').textContent = 'Connected';
+        document.getElementById('connection-status').style.color = '#22c55e';
+      };
+
+      ws.onclose = () => {
+        document.getElementById('connection-status').textContent = 'Disconnected';
+        document.getElementById('connection-status').style.color = '#ef4444';
+        setTimeout(connectWS, 3000);
+      };
+
+      ws.onmessage = (evt) => {
+        const msg = JSON.parse(evt.data);
+        addEvent(msg.event, msg.data);
+
+        if (msg.event === 'agent:thinking') {
+          addMessage(msg.data.agent.toUpperCase(), 'Thinking...', 'system');
+        }
+      };
+    }
+
+    connectWS();
+
+    // Agent selection
+    document.querySelectorAll('.agent-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        document.getElementById('agent-select').value = card.dataset.agent;
+      });
+    });
+
+    // Send message
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const agent = document.getElementById('agent-select').value;
+      const question = input.value.trim();
+      if (!question) return;
+
+      input.value = '';
+      addMessage('YOU', question, 'user');
+      document.getElementById('send-btn').disabled = true;
+
+      try {
+        const res = await fetch('/api/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ agent, question }),
+        });
+        const data = await res.json();
+        if (data.error) {
+          addMessage('ERROR', data.error, 'system');
+        } else {
+          addMessage(agent.toUpperCase(), data.answer);
+        }
+      } catch (err) {
+        addMessage('ERROR', err.message, 'system');
+      }
+
+      document.getElementById('send-btn').disabled = false;
+      input.focus();
+    }
+
+    // Run workflow
+    async function runWorkflow(type) {
+      const topic = prompt(`Enter ${type} topic/goal:`);
+      if (!topic) return;
+
+      addMessage('SYSTEM', `Starting ${type}: "${topic}"...`, 'system');
+
+      const endpoints = {
+        sprint: ['/api/sprint', { goal: topic }],
+        debate: ['/api/debate', { topic }],
+        chat: ['/api/chat', { topic }],
+        feature: ['/api/preset/feature', { name: topic }],
+        market: ['/api/preset/market', { topic }],
+      };
+
+      const [url, body] = endpoints[type];
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        addMessage(type.toUpperCase(), data.report || data.error, data.error ? 'system' : '');
+      } catch (err) {
+        addMessage('ERROR', err.message, 'system');
+      }
+    }
+
+    // Fetch endpoint and display
+    async function fetchEndpoint(url, label) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const content = Object.values(data)[0];
+        addMessage(label.toUpperCase(), typeof content === 'string' ? content : JSON.stringify(content, null, 2));
+      } catch (err) {
+        addMessage('ERROR', err.message, 'system');
+      }
+    }
+
+    // UI helpers
+    function addMessage(sender, content, type = '') {
+      const container = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${type}`;
+      div.innerHTML = `<div class="sender">${sender}</div><div class="content">${escapeHtml(content)}</div>`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      messageCount++;
+      document.getElementById('stat-messages').textContent = messageCount;
+    }
+
+    function addEvent(event, data) {
+      const log = document.getElementById('event-log');
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = 'event';
+      div.innerHTML = `<span class="event-time">${time}</span> ${event}`;
+      log.prepend(div);
+      while (log.children.length > 20) log.removeChild(log.lastChild);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

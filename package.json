@@ -12,6 +12,7 @@
     "bootstrap": "tsx src/index.ts bootstrap -v",
     "sprint": "tsx src/index.ts sprint",
     "workflow": "tsx src/index.ts workflow",
+    "serve": "tsx src/index.ts serve -v",
     "demo": "tsx src/index.ts demo",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -21,11 +22,15 @@
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "eventemitter3": "^5.0.1",
-    "uuid": "^10.0.0"
+    "express": "^5.2.1",
+    "uuid": "^10.0.0",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^22.10.0",
     "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vitest": "^4.0.18"
