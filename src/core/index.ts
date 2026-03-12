@@ -15,4 +15,5 @@ export { Dashboard } from './dashboard.js';
 export { ErrorRecovery } from './error-recovery.js';
 export { AgentFactory, CustomAgent } from './agent-factory.js';
 export { ConversationManager } from './conversation-export.js';
+export { HealthMonitor } from './health-monitor.js';
 export { Orchestrator } from './orchestrator.js';

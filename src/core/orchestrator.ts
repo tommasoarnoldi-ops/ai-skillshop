@@ -16,6 +16,10 @@ import { EventReactionEngine, createDefaultReactions } from './event-reactions.j
 import { ChatRoom, type ChatRoomConfig } from './chat-room.js';
 import { Scheduler, createDefaultJobs } from './scheduler.js';
 import { Dashboard } from './dashboard.js';
+import { ErrorRecovery } from './error-recovery.js';
+import { AgentFactory } from './agent-factory.js';
+import { ConversationManager, type AgentConversation } from './conversation-export.js';
+import { HealthMonitor } from './health-monitor.js';
 import { CEOAgent } from '../agents/ceo-agent.js';
 import { CTOAgent } from '../agents/cto-agent.js';
 import { ProductManagerAgent } from '../agents/product-manager-agent.js';
@@ -52,6 +56,10 @@ export class Orchestrator {
   readonly chatRoom: ChatRoom;
   readonly scheduler: Scheduler;
   readonly dashboard: Dashboard;
+  readonly errorRecovery: ErrorRecovery;
+  readonly agentFactory: AgentFactory;
+  readonly conversations: ConversationManager;
+  readonly healthMonitor: HealthMonitor;
 
   // Individual agent references for direct access
   readonly ceo: CEOAgent;
@@ -120,6 +128,12 @@ export class Orchestrator {
       progressCheck: () => this.ceo.evaluateProgress(),
       sprintReview: () => this.runSprint('Sprint review settimanale'),
     });
+
+    // Initialize error recovery, agent factory, conversation manager
+    this.errorRecovery = new ErrorRecovery();
+    this.agentFactory = new AgentFactory(this.bus, this.board, config.apiKey);
+    this.conversations = new ConversationManager();
+    this.healthMonitor = new HealthMonitor(this.agents);
 
     // Initialize dashboard
     this.dashboard = new Dashboard(
@@ -721,6 +735,67 @@ export class Orchestrator {
    */
   getReactionsSummary(): string {
     return this.reactions.getSummary();
+  }
+
+  // ---- Conversation export/import ----
+
+  /**
+   * Export the current session for later resumption.
+   */
+  exportConversation(summary?: string): string {
+    const agentConversations: AgentConversation[] = Array.from(this.agents.entries()).map(([, agent]) => {
+      const state = agent.getState();
+      return {
+        agentId: state.id,
+        decisions: state.memory.decisions.map(d => ({
+          topic: d.topic,
+          decision: d.decision,
+          timestamp: d.timestamp.toISOString(),
+        })),
+        learnings: state.memory.learnings,
+        context: state.memory.context,
+        taskCount: state.completedTasks.length,
+      };
+    });
+
+    const filepath = this.conversations.export({
+      agents: agentConversations,
+      messages: this.bus.getLog(),
+      knowledge: [],
+      summary,
+    });
+
+    this.log('system', `Conversation exported to ${filepath}`);
+    return filepath;
+  }
+
+  /**
+   * Import a previous session's context.
+   */
+  importConversation(filepath?: string): string | null {
+    const conversation = filepath
+      ? this.conversations.import(filepath)
+      : this.conversations.importLatest();
+
+    if (!conversation) return null;
+
+    const contextPrompt = this.conversations.buildContextPrompt(conversation);
+    this.log('system', `Imported session ${conversation.sessionId} (${conversation.agents.length} agents)`);
+    return contextPrompt;
+  }
+
+  /**
+   * Get error recovery summary.
+   */
+  getErrorSummary(): string {
+    return this.errorRecovery.getSummary();
+  }
+
+  /**
+   * Get system health report.
+   */
+  getHealthReport(): string {
+    return this.healthMonitor.getSummary();
   }
 
   // ---- State persistence ----

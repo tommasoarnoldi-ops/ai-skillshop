@@ -53,6 +53,10 @@
 | **Scheduler** | Recurring job execution (daily standup, sprint review, progress checks) |
 | **Dashboard** | Consolidated project health view with visual indicators |
 | **State Persistence** | Save/restore system state across sessions |
+| **Error Recovery** | Exponential backoff retry with circuit breakers for API resilience |
+| **Agent Factory** | Create custom agents with pluggable behavior callbacks |
+| **Conversation Manager** | Export/import sessions for cross-session continuity |
+| **Health Monitor** | Agent heartbeats, health tracking, and API rate limiting |
 
 ## Setup
 
@@ -87,6 +91,10 @@ forgeai> /feature "Knowledge base chat con RAG"
 forgeai> /chat "Strategia di lancio Q1"
 forgeai> /dashboard
 forgeai> /status
+forgeai> /health
+forgeai> /errors
+forgeai> /export
+forgeai> /import
 forgeai> /metrics
 ```
 
@@ -202,7 +210,11 @@ src/
 │   ├── scheduler.ts            # Recurring job execution
 │   ├── dashboard.ts            # Consolidated project health view
 │   ├── state-persistence.ts    # Save/restore state
-│   └── orchestrator.ts         # Central coordinator (14 systems)
+│   ├── error-recovery.ts       # Retry with exponential backoff + circuit breakers
+│   ├── agent-factory.ts        # Custom agent creation
+│   ├── conversation-export.ts  # Session export/import
+│   ├── health-monitor.ts       # Agent health & rate limiting
+│   └── orchestrator.ts         # Central coordinator (18 systems)
 ├── workflows/                  # Pre-built workflows
 │   ├── bootstrap.ts            # Full ForgeAI app generation
 │   └── startup-presets.ts      # Common startup task presets
@@ -211,6 +223,18 @@ src/
 └── types/
     └── index.ts                # TypeScript types
 ```
+
+## Testing
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm run test:watch
+```
+
+46 tests across 6 suites covering: MessageBus, TaskBoard, KnowledgeBase, ErrorRecovery, HealthMonitor, ConversationManager.
 
 ## About ForgeAI
 

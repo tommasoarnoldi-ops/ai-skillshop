@@ -31,6 +31,10 @@ ${chalk.bold('Available Commands:')}
 
   ${chalk.cyan('/dashboard')}              Full project health dashboard
   ${chalk.cyan('/status')}                  Show all agents status
+  ${chalk.cyan('/health')}                  Show agent health & rate limits
+  ${chalk.cyan('/errors')}                  Show error recovery log
+  ${chalk.cyan('/export')}                  Export current session
+  ${chalk.cyan('/import')}                  Import latest session context
   ${chalk.cyan('/kb')}                      Show knowledge base
   ${chalk.cyan('/artifacts')}               Show generated artifacts
   ${chalk.cyan('/messages')}                Show message log
@@ -273,6 +277,31 @@ async function handleInput(
       case '/scheduler':
         console.log(orchestrator.getSchedulerSummary());
         break;
+
+      case '/health':
+        console.log(orchestrator.getHealthReport());
+        break;
+
+      case '/errors':
+        console.log(orchestrator.getErrorSummary());
+        break;
+
+      case '/export': {
+        const filepath = orchestrator.exportConversation(arg || undefined);
+        console.log(chalk.green(`Session exported to: ${filepath}`));
+        break;
+      }
+
+      case '/import': {
+        const context = orchestrator.importConversation(arg || undefined);
+        if (context) {
+          console.log(chalk.green('Session imported successfully.\n'));
+          console.log(context);
+        } else {
+          console.log(chalk.yellow('No previous session found.'));
+        }
+        break;
+      }
 
       default:
         console.log(chalk.yellow(`Unknown command: ${cmd}. Type /help for available commands.`));
