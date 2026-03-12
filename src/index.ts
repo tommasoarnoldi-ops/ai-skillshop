@@ -6,6 +6,9 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { Orchestrator } from './core/orchestrator.js';
+import { BootstrapWorkflow } from './workflows/bootstrap.js';
+import { StartupWorkflows } from './workflows/startup-presets.js';
+import { startRepl } from './repl.js';
 import type { AgentId } from './types/index.js';
 
 const BANNER = `
@@ -275,6 +278,91 @@ program
     console.log(`  ${chalk.green('$')} npm run dev -- ask cto "Come gestire l'offline mode?"`);
     console.log(`  ${chalk.green('$')} npm run dev -- ask marketing "Pitch per Confindustria Emilia"`);
     console.log();
+    console.log(`  ${chalk.gray('# Full app bootstrap (generates entire ForgeAI app)')}`);
+    console.log(`  ${chalk.green('$')} npm run dev -- bootstrap -v`);
+    console.log();
+    console.log(`  ${chalk.gray('# Workflow presets')}`);
+    console.log(`  ${chalk.green('$')} npm run dev -- preset feature-spec "Scanner macchinari"`);
+    console.log(`  ${chalk.green('$')} npm run dev -- preset pitch-prep "Pre-seed round"`);
+    console.log(`  ${chalk.green('$')} npm run dev -- preset sprint-plan "MVP Sprint 1"`);
+    console.log(`  ${chalk.green('$')} npm run dev -- preset market-analysis "Mercato PMI Emilia-Romagna"`);
+    console.log();
+    console.log(`  ${chalk.gray('# Interactive REPL mode')}`);
+    console.log(`  ${chalk.green('$')} npm run dev -- repl`);
+    console.log();
+  });
+
+// ════════════════════════════════════════════════
+// BOOTSTRAP — Generate full ForgeAI app
+// ════════════════════════════════════════════════
+program
+  .command('bootstrap')
+  .description('Generate the complete ForgeAI app using all 6 agents')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .option('-p, --phase <number>', 'Run only a specific phase (1-5)')
+  .action(async (opts: { verbose: boolean; phase?: string }) => {
+    console.log(BANNER);
+    const orchestrator = createOrchestrator(opts.verbose);
+    const bootstrap = new BootstrapWorkflow(orchestrator);
+
+    if (opts.phase) {
+      const phase = parseInt(opts.phase, 10) as 1 | 2 | 3 | 4 | 5;
+      if (phase < 1 || phase > 5) {
+        console.error(chalk.red('Phase must be between 1 and 5'));
+        process.exit(1);
+      }
+      console.log(chalk.cyan(`\n🚀 Running bootstrap phase ${phase}\n`));
+      const report = await bootstrap.runPhase(phase);
+      console.log(report);
+    } else {
+      console.log(chalk.cyan('\n🚀 Running FULL bootstrap — generating entire ForgeAI app\n'));
+      console.log(chalk.yellow('This will use all 6 agents to generate code, docs, tests, and marketing materials.\n'));
+      const report = await bootstrap.run(opts.verbose);
+      console.log(report);
+    }
+  });
+
+// ════════════════════════════════════════════════
+// PRESET — Run pre-built workflow presets
+// ════════════════════════════════════════════════
+program
+  .command('preset')
+  .description('Run a pre-built workflow preset')
+  .argument('<name>', 'Preset name: feature-spec, tech-review, pitch-prep, sprint-plan, market-analysis')
+  .argument('[input]', 'Input for the preset')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .action(async (name: string, input: string | undefined, opts: { verbose: boolean }) => {
+    console.log(BANNER);
+    const orchestrator = createOrchestrator(opts.verbose);
+    const workflows = new StartupWorkflows(orchestrator);
+
+    const presets = workflows.listPresets();
+    const preset = presets.find(p => p.name === name);
+    if (!preset) {
+      console.error(chalk.red(`Unknown preset: ${name}`));
+      console.log(chalk.gray('Available presets:'));
+      for (const p of presets) {
+        console.log(chalk.gray(`  ${p.name} — ${p.description}`));
+      }
+      process.exit(1);
+    }
+
+    console.log(chalk.hex('#14B8A6')(`\n📋 Running preset: ${preset.name}\n`));
+    console.log(chalk.gray(`   ${preset.description}\n`));
+
+    const report = await workflows.runPreset(name, input ?? '');
+    console.log(report);
+  });
+
+// ════════════════════════════════════════════════
+// REPL — Interactive mode
+// ════════════════════════════════════════════════
+program
+  .command('repl')
+  .description('Start interactive REPL — chat with agents live')
+  .action(async () => {
+    console.log(BANNER);
+    await startRepl(getApiKey());
   });
 
 program.parse();

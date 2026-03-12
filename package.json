@@ -8,9 +8,11 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
-    "agents:run": "tsx src/index.ts run",
-    "agents:status": "tsx src/index.ts status",
-    "agents:task": "tsx src/index.ts task"
+    "repl": "tsx src/index.ts repl",
+    "bootstrap": "tsx src/index.ts bootstrap -v",
+    "sprint": "tsx src/index.ts sprint",
+    "workflow": "tsx src/index.ts workflow",
+    "demo": "tsx src/index.ts demo"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
