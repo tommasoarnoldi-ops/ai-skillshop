@@ -6,6 +6,10 @@ import chalk from 'chalk';
 import type { AgentId, Task } from '../types/index.js';
 import { MessageBus } from './message-bus.js';
 import { TaskBoard } from './task-board.js';
+import { KnowledgeBase } from './knowledge-base.js';
+import { ArtifactStore } from './artifact-store.js';
+import { CollaborationEngine } from './collaboration.js';
+import { StatePersistence } from './state-persistence.js';
 import { CEOAgent } from '../agents/ceo-agent.js';
 import { CTOAgent } from '../agents/cto-agent.js';
 import { ProductManagerAgent } from '../agents/product-manager-agent.js';
@@ -17,6 +21,8 @@ import type { BaseAgent } from './base-agent.js';
 export interface OrchestratorConfig {
   apiKey: string;
   verbose?: boolean;
+  outputDir?: string;
+  stateDir?: string;
 }
 
 /**
@@ -29,6 +35,12 @@ export class Orchestrator {
   private agents: Map<AgentId, BaseAgent>;
   private verbose: boolean;
 
+  // Shared systems
+  readonly kb: KnowledgeBase;
+  readonly artifacts: ArtifactStore;
+  readonly collaboration: CollaborationEngine;
+  readonly persistence: StatePersistence;
+
   // Individual agent references for direct access
   readonly ceo: CEOAgent;
   readonly cto: CTOAgent;
@@ -40,6 +52,9 @@ export class Orchestrator {
   constructor(config: OrchestratorConfig) {
     this.bus = new MessageBus();
     this.board = new TaskBoard();
+    this.kb = new KnowledgeBase();
+    this.artifacts = new ArtifactStore(config.outputDir ?? './output');
+    this.persistence = new StatePersistence(config.stateDir ?? './.forgeai-state');
     this.verbose = config.verbose ?? false;
     this.agents = new Map();
 
@@ -58,7 +73,71 @@ export class Orchestrator {
     this.agents.set('marketing', this.marketing);
     this.agents.set('qa-devops', this.qa);
 
-    this.log('system', 'Orchestrator initialized with 6 agents');
+    // Initialize collaboration engine
+    this.collaboration = new CollaborationEngine(
+      this.agents,
+      this.bus,
+      this.board,
+      this.kb,
+      this.artifacts,
+    );
+
+    // Seed knowledge base with ForgeAI project context
+    this.seedKnowledgeBase();
+
+    this.log('system', 'Orchestrator initialized with 6 agents + KB + Artifacts + Collaboration');
+  }
+
+  // ---- Knowledge Base Seeding ----
+
+  private seedKnowledgeBase(): void {
+    this.kb.put({
+      category: 'architecture',
+      key: 'tech-stack',
+      content: 'React Native + Expo Router (SDK 52+), Zustand, SQLite (offline), Supabase (PostgreSQL + Auth + Storage + Edge Functions + pgvector), Claude API (claude-sonnet-4-20250514)',
+      contributedBy: 'cto',
+      tags: ['stack', 'foundation'],
+    });
+
+    this.kb.put({
+      category: 'market_intel',
+      key: 'target-market',
+      content: 'PMI manifatturiere italiane, 50-500 dipendenti. Lancio Emilia-Romagna (distretto meccanica). Connected Worker Market: $8.6B (2025), CAGR 18.5%. Competitor: Augmentir, Tulip, Poka — tutti enterprise, nessuno smartphone-first per PMI.',
+      contributedBy: 'marketing',
+      tags: ['market', 'competitor', 'target'],
+    });
+
+    this.kb.put({
+      category: 'requirements',
+      key: 'mvp-features',
+      content: '1. Scanner macchinari (camera → AI vision → ID)\n2. Guida step-by-step (procedure + verifica AI visiva)\n3. Knowledge base chat (RAG)\n4. Dashboard manager (analytics)\n5. Offline mode (cache + sync)',
+      contributedBy: 'product-manager',
+      tags: ['mvp', 'features', 'priority'],
+    });
+
+    this.kb.put({
+      category: 'brand',
+      key: 'pricing',
+      content: 'SaaS B2B. Starter: €499/mese (1 reparto, 10 operatori, 50 procedure). Pro: €1.499/mese (illimitato). Setup fee: €5-15K.',
+      contributedBy: 'marketing',
+      tags: ['pricing', 'business-model'],
+    });
+
+    this.kb.put({
+      category: 'user_research',
+      key: 'personas',
+      content: '1. Operatore Junior (25-35): nuovo assunto, deve imparare rapidamente\n2. Operatore Senior (50-65): conosce tutto, documenta prima della pensione\n3. Manager Stabilimento (40-55): visibilità competenze team e compliance',
+      contributedBy: 'product-manager',
+      tags: ['personas', 'users'],
+    });
+
+    this.kb.put({
+      category: 'architecture',
+      key: 'ux-principles',
+      content: 'Tema scuro (riduce riflessi), touch target ≥ 48px (guanti), font ≥ 15px, contrasto WCAG AA+, uso con una mano, voice-first ready, feedback haptics.',
+      contributedBy: 'product-manager',
+      tags: ['ux', 'design', 'accessibility'],
+    });
   }
 
   // ---- High-level workflows ----
@@ -97,12 +176,26 @@ export class Orchestrator {
         const status = completed.status === 'done' ? chalk.green('DONE') : chalk.red('BLOCKED');
         this.log(task.assignedTo, `${status} — ${task.title}`);
         results.push(`[${task.assignedTo}] ${task.title}: ${completed.output?.substring(0, 200) ?? 'no output'}`);
+
+        // Store output in knowledge base
+        if (completed.output) {
+          this.kb.put({
+            category: 'decision',
+            key: `sprint-task-${task.title}`,
+            content: completed.output.substring(0, 2000),
+            contributedBy: task.assignedTo,
+            tags: ['sprint', goal],
+          });
+        }
       }
     }
 
     // Phase 3: CEO evaluates progress
     this.log('ceo', 'Evaluating progress...');
     const evaluation = await this.ceo.evaluateProgress();
+
+    // Save state
+    this.saveState();
 
     const report = [
       '═══════════════════════════════════════',
@@ -117,8 +210,10 @@ export class Orchestrator {
       '--- CEO Evaluation ---',
       evaluation,
       '',
-      '--- Message Bus ---',
-      `Total messages exchanged: ${this.bus.totalMessages}`,
+      '--- System Stats ---',
+      `Messages exchanged: ${this.bus.totalMessages}`,
+      `Knowledge base entries: ${this.kb.size}`,
+      `Artifacts generated: ${this.artifacts.size}`,
       '',
       this.board.getSummary(),
     ].join('\n');
@@ -133,6 +228,11 @@ export class Orchestrator {
    */
   async runCollaborativeWorkflow(topic: string): Promise<string> {
     this.log('workflow', `Starting collaborative workflow: "${topic}"`);
+
+    // Get existing knowledge context
+    const kbContext = this.kb.getContextFor(topic);
+    this.log('workflow', `Knowledge base context: ${kbContext.length > 50 ? 'found' : 'minimal'}`);
+
     const outputs: Record<string, string> = {};
 
     // Step 1: CEO sets strategic direction
@@ -144,6 +244,13 @@ export class Orchestrator {
     this.log('product-manager', 'Creating product requirements...');
     const prd = await this.pm.createPRD(topic);
     outputs['Product Requirements'] = prd;
+    this.artifacts.add({
+      type: 'document',
+      filePath: `docs/prd-${slugify(topic)}.md`,
+      content: prd,
+      description: `PRD for ${topic}`,
+      createdBy: 'product-manager',
+    });
 
     // Step 3: CTO designs architecture
     this.log('cto', 'Designing technical architecture...');
@@ -151,6 +258,13 @@ export class Orchestrator {
       `${topic}\n\nProduct Requirements:\n${prd.substring(0, 1000)}`,
     );
     outputs['Technical Architecture'] = architecture;
+    this.artifacts.add({
+      type: 'document',
+      filePath: `docs/architecture-${slugify(topic)}.md`,
+      content: architecture,
+      description: `Architecture design for ${topic}`,
+      createdBy: 'cto',
+    });
 
     // Step 4: Developer generates implementation
     this.log('developer', 'Generating implementation...');
@@ -158,13 +272,37 @@ export class Orchestrator {
       `Feature: ${topic}\n\nArchitecture:\n${architecture.substring(0, 1000)}\n\nRequirements:\n${prd.substring(0, 500)}`,
     );
     outputs['Implementation'] = code;
+    this.artifacts.add({
+      type: 'code',
+      filePath: `src/features/${slugify(topic)}.ts`,
+      content: code,
+      description: `Implementation of ${topic}`,
+      createdBy: 'developer',
+    });
 
-    // Step 5: QA creates test plan
+    // Step 5: QA reviews implementation
+    this.log('qa-devops', 'Reviewing implementation...');
+    const review = await this.collaboration.review({
+      authorId: 'developer',
+      reviewerId: 'qa-devops',
+      subject: topic,
+      content: code,
+    });
+    outputs['QA Review'] = review.feedback;
+
+    // Step 6: QA creates test plan
     this.log('qa-devops', 'Creating test plan...');
     const testPlan = await this.qa.createTestPlan(topic);
     outputs['Test Plan'] = testPlan;
+    this.artifacts.add({
+      type: 'test',
+      filePath: `tests/${slugify(topic)}.test.md`,
+      content: testPlan,
+      description: `Test plan for ${topic}`,
+      createdBy: 'qa-devops',
+    });
 
-    // Step 6: Marketing creates go-to-market angle
+    // Step 7: Marketing creates go-to-market angle
     this.log('marketing', 'Creating GTM angle...');
     const gtm = await this.marketing.generateContent(
       'feature brief',
@@ -172,21 +310,157 @@ export class Orchestrator {
     );
     outputs['Marketing Brief'] = gtm;
 
+    // Store all in knowledge base
+    for (const [key, value] of Object.entries(outputs)) {
+      this.kb.put({
+        category: key.includes('Architecture') ? 'architecture' :
+                  key.includes('Requirements') ? 'requirements' :
+                  key.includes('Marketing') ? 'brand' : 'decision',
+        key: `${slugify(topic)}-${slugify(key)}`,
+        content: value.substring(0, 3000),
+        contributedBy: key.includes('CEO') ? 'ceo' :
+                       key.includes('CTO') || key.includes('Architecture') ? 'cto' :
+                       key.includes('Product') ? 'product-manager' :
+                       key.includes('Developer') || key.includes('Implementation') ? 'developer' :
+                       key.includes('Marketing') ? 'marketing' : 'qa-devops',
+        tags: [topic, key],
+      });
+    }
+
+    // Write artifacts to disk
+    const writeResult = this.artifacts.writeAllToDisk();
+    this.log('workflow', `Artifacts written: ${writeResult.written}, errors: ${writeResult.errors.length}`);
+
+    // Save state
+    this.saveState();
+
     // Compile report
     const report = [
       '═══════════════════════════════════════════════',
       `COLLABORATIVE WORKFLOW: ${topic}`,
       '═══════════════════════════════════════════════',
       '',
+      `QA Review: ${review.approved ? '✅ APPROVED' : '❌ CHANGES REQUESTED'}`,
+      '',
       ...Object.entries(outputs).flatMap(([title, content]) => [
         `── ${title} ${'─'.repeat(Math.max(0, 40 - title.length))}`,
         content.substring(0, 2000),
         '',
       ]),
+      '--- System Stats ---',
       `Messages exchanged: ${this.bus.totalMessages}`,
+      `Knowledge base entries: ${this.kb.size}`,
+      `Artifacts generated: ${this.artifacts.size}`,
+      '',
+      this.artifacts.getSummary(),
     ].join('\n');
 
     this.log('workflow', 'Collaborative workflow completed');
+    return report;
+  }
+
+  /**
+   * Run a debate between two agents, with a third deciding.
+   */
+  async runDebate(
+    topic: string,
+    agent1: AgentId,
+    agent2: AgentId,
+    decider: AgentId = 'ceo',
+    rounds: number = 2,
+  ): Promise<string> {
+    this.log('debate', `Starting debate: "${topic}" (${agent1} vs ${agent2}, decided by ${decider})`);
+
+    const result = await this.collaboration.debate({
+      topic,
+      participant1: agent1,
+      participant2: agent2,
+      deciderId: decider,
+      rounds,
+    });
+
+    const report = [
+      '═══════════════════════════════════════════════',
+      `DEBATE: ${topic}`,
+      '═══════════════════════════════════════════════',
+      '',
+      ...result.rounds.map(r =>
+        `── Round ${r.round} — ${r.speaker} ${'─'.repeat(20)}\n${r.argument.substring(0, 1500)}\n`,
+      ),
+      `── DECISION (${result.decidedBy}) ${'─'.repeat(20)}`,
+      result.conclusion,
+    ].join('\n');
+
+    return report;
+  }
+
+  /**
+   * Run a production pipeline (e.g., requirements → architecture → code → tests).
+   */
+  async runPipeline(
+    name: string,
+    initialInput: string,
+    stages: Array<{ agentId: AgentId; instruction: string }>,
+  ): Promise<string> {
+    this.log('pipeline', `Starting pipeline: "${name}" with ${stages.length} stages`);
+
+    const result = await this.collaboration.pipeline({
+      name,
+      initialInput,
+      stages: stages.map((s, i) => ({
+        ...s,
+        outputPath: `pipeline/${slugify(name)}/stage-${i + 1}-${s.agentId}.md`,
+        outputType: 'document' as const,
+      })),
+    });
+
+    // Write artifacts
+    this.artifacts.writeAllToDisk();
+    this.saveState();
+
+    const report = [
+      '═══════════════════════════════════════════════',
+      `PIPELINE: ${name}`,
+      '═══════════════════════════════════════════════',
+      '',
+      ...result.stages.map((s, i) => [
+        `── Stage ${i + 1}: ${s.agentId} (${s.duration}ms) ──`,
+        s.output.substring(0, 1500),
+        '',
+      ].join('\n')),
+      '── FINAL OUTPUT ──',
+      result.finalOutput.substring(0, 3000),
+    ].join('\n');
+
+    return report;
+  }
+
+  /**
+   * Run parallel tasks across agents.
+   */
+  async runParallel(
+    tasks: Array<{ agentId: AgentId; instruction: string; label?: string }>,
+  ): Promise<string> {
+    this.log('parallel', `Running ${tasks.length} tasks in parallel`);
+
+    const results = await this.collaboration.parallel(
+      tasks.map(t => ({
+        agentId: t.agentId,
+        instruction: t.instruction,
+        outputKey: t.label ?? t.agentId,
+      })),
+    );
+
+    const report = [
+      '═══════════════════════════════════════════════',
+      `PARALLEL EXECUTION (${tasks.length} tasks)`,
+      '═══════════════════════════════════════════════',
+      '',
+      ...Array.from(results.entries()).map(([key, output]) =>
+        `── ${key} ${'─'.repeat(Math.max(0, 40 - key.length))}\n${output.substring(0, 2000)}\n`,
+      ),
+    ].join('\n');
+
     return report;
   }
 
@@ -197,8 +471,7 @@ export class Orchestrator {
     const agent = this.agents.get(agentId);
     if (!agent) return `Agent ${agentId} not found.`;
 
-    this.log(agentId, `Processing question...`);
-    // Access the protected think method via a task
+    this.log(agentId, 'Processing question...');
     const task = this.board.createTask({
       title: `Answer: ${question.substring(0, 50)}`,
       description: question,
@@ -248,6 +521,8 @@ export class Orchestrator {
 
     lines.push(this.board.getSummary());
     lines.push(`\nTotal messages: ${this.bus.totalMessages}`);
+    lines.push(`Knowledge base: ${this.kb.size} entries`);
+    lines.push(`Artifacts: ${this.artifacts.size} files`);
 
     return lines.join('\n');
   }
@@ -267,6 +542,56 @@ export class Orchestrator {
       .join('\n');
   }
 
+  /**
+   * Get knowledge base summary.
+   */
+  getKnowledgeSummary(): string {
+    return this.kb.exportSummary();
+  }
+
+  /**
+   * Get artifacts summary.
+   */
+  getArtifactsSummary(): string {
+    return this.artifacts.getSummary();
+  }
+
+  // ---- State persistence ----
+
+  private saveState(): void {
+    try {
+      const snapshot = {
+        version: '1.0.0',
+        timestamp: new Date().toISOString(),
+        agents: Array.from(this.agents.entries()).map(([_id, agent]) => {
+          const state = agent.getState();
+          return {
+            id: state.id,
+            completedTaskCount: state.completedTasks.length,
+            queuedTaskCount: state.taskQueue.length,
+            decisions: state.memory.decisions,
+            context: state.memory.context,
+            learnings: state.memory.learnings,
+          };
+        }),
+        tasks: this.board.getAllTasks(),
+        messages: this.bus.getLog(),
+        knowledge: [],
+        artifacts: [],
+        metadata: {
+          totalMessages: this.bus.totalMessages,
+          knowledgeEntries: this.kb.size,
+          artifactCount: this.artifacts.size,
+        },
+      };
+
+      this.persistence.save(snapshot);
+      this.log('system', 'State saved');
+    } catch (error) {
+      this.log('error', `Failed to save state: ${error}`);
+    }
+  }
+
   // ---- Logging ----
 
   private log(source: string, message: string): void {
@@ -276,6 +601,9 @@ export class Orchestrator {
       system: chalk.gray,
       sprint: chalk.cyan,
       workflow: chalk.magenta,
+      debate: chalk.hex('#8B5CF6'),
+      pipeline: chalk.hex('#06B6D4'),
+      parallel: chalk.hex('#14B8A6'),
       ceo: chalk.yellow,
       cto: chalk.blue,
       'product-manager': chalk.green,
@@ -289,4 +617,14 @@ export class Orchestrator {
     const prefix = colorFn(`[${source.toUpperCase()}]`);
     console.log(`${prefix} ${message}`);
   }
+}
+
+// ---- Helpers ----
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 50);
 }
