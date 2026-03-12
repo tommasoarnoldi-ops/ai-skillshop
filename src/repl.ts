@@ -26,11 +26,14 @@ ${chalk.bold('Available Commands:')}
   ${chalk.cyan('/sprint-plan <goal>')}      Plan a sprint
   ${chalk.cyan('/market <topic>')}          Market analysis pipeline
   ${chalk.cyan('/bootstrap')}               Generate full ForgeAI app (takes a while!)
+  ${chalk.cyan('/auto <objective>')}        Run autonomous loop (CEO plans, agents iterate)
 
   ${chalk.cyan('/status')}                  Show all agents status
   ${chalk.cyan('/kb')}                      Show knowledge base
   ${chalk.cyan('/artifacts')}               Show generated artifacts
   ${chalk.cyan('/messages')}                Show message log
+  ${chalk.cyan('/metrics')}                 Show agent performance metrics
+  ${chalk.cyan('/reactions')}               Show event reaction rules
   ${chalk.cyan('/help')}                    Show this help
   ${chalk.cyan('/quit')}                    Exit
 
@@ -146,6 +149,14 @@ async function handleInput(
         console.log(orchestrator.getMessageLog());
         break;
 
+      case '/metrics':
+        console.log(orchestrator.getMetricsReport());
+        break;
+
+      case '/reactions':
+        console.log(orchestrator.getReactionsSummary());
+        break;
+
       case '/sprint': {
         if (!arg) {
           console.log(chalk.yellow('Usage: /sprint <goal>'));
@@ -217,6 +228,21 @@ async function handleInput(
         console.log(chalk.yellow('  This will generate the entire ForgeAI app with all 6 agents.'));
         console.log(chalk.yellow('  It may take several minutes.\n'));
         const report = await bootstrap.run(true);
+        console.log(report);
+        break;
+      }
+
+      case '/auto': {
+        if (!arg) {
+          console.log(chalk.yellow('Usage: /auto <objective>'));
+          break;
+        }
+        console.log(chalk.hex('#A78BFA')(`\n  Starting autonomous execution: "${arg}"\n`));
+        const report = await orchestrator.runAutonomous(arg, {
+          maxCycles: 5,
+          maxTasksPerCycle: 4,
+          verbose: true,
+        });
         console.log(report);
         break;
       }

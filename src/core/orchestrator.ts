@@ -10,6 +10,9 @@ import { KnowledgeBase } from './knowledge-base.js';
 import { ArtifactStore } from './artifact-store.js';
 import { CollaborationEngine } from './collaboration.js';
 import { StatePersistence } from './state-persistence.js';
+import { AutonomyLoop, type AutonomyConfig, type CycleReport } from './autonomy-loop.js';
+import { MetricsTracker } from './metrics.js';
+import { EventReactionEngine, createDefaultReactions } from './event-reactions.js';
 import { CEOAgent } from '../agents/ceo-agent.js';
 import { CTOAgent } from '../agents/cto-agent.js';
 import { ProductManagerAgent } from '../agents/product-manager-agent.js';
@@ -40,6 +43,9 @@ export class Orchestrator {
   readonly artifacts: ArtifactStore;
   readonly collaboration: CollaborationEngine;
   readonly persistence: StatePersistence;
+  readonly autonomy: AutonomyLoop;
+  readonly metrics: MetricsTracker;
+  readonly reactions: EventReactionEngine;
 
   // Individual agent references for direct access
   readonly ceo: CEOAgent;
@@ -82,10 +88,26 @@ export class Orchestrator {
       this.artifacts,
     );
 
+    // Initialize autonomy loop
+    this.autonomy = new AutonomyLoop(
+      this.agents,
+      this.bus,
+      this.board,
+      this.kb,
+      this.artifacts,
+    );
+
+    // Initialize metrics tracker
+    this.metrics = new MetricsTracker();
+
+    // Initialize event reactions
+    this.reactions = new EventReactionEngine(this.agents, this.bus, this.board);
+    createDefaultReactions(this.reactions);
+
     // Seed knowledge base with ForgeAI project context
     this.seedKnowledgeBase();
 
-    this.log('system', 'Orchestrator initialized with 6 agents + KB + Artifacts + Collaboration');
+    this.log('system', 'Orchestrator initialized: 6 agents + KB + Artifacts + Collaboration + Autonomy + Metrics + Reactions');
   }
 
   // ---- Knowledge Base Seeding ----
@@ -465,6 +487,64 @@ export class Orchestrator {
   }
 
   /**
+   * Run the system autonomously — CEO plans, agents execute, iterate.
+   */
+  async runAutonomous(
+    objective: string,
+    config?: Partial<AutonomyConfig>,
+  ): Promise<string> {
+    const fullConfig: AutonomyConfig = {
+      maxCycles: config?.maxCycles ?? 5,
+      maxTasksPerCycle: config?.maxTasksPerCycle ?? 4,
+      verbose: config?.verbose ?? this.verbose,
+      onCycleComplete: (report) => {
+        this.metrics.recordCycle(report);
+        this.log('autonomy', `Cycle ${report.cycle}: ${report.tasksCompleted}/${report.tasksCreated} tasks — ${report.summary.substring(0, 80)}`);
+      },
+    };
+
+    this.log('autonomy', `Starting autonomous execution: "${objective}"`);
+    this.log('autonomy', `Max ${fullConfig.maxCycles} cycles, ${fullConfig.maxTasksPerCycle} tasks/cycle`);
+
+    const reports = await this.autonomy.run(objective, fullConfig);
+    this.saveState();
+
+    const totalCompleted = reports.reduce((s, r) => s + r.tasksCompleted, 0);
+    const totalCreated = reports.reduce((s, r) => s + r.tasksCreated, 0);
+    const totalDuration = reports.reduce((s, r) => s + r.duration, 0);
+
+    const result = [
+      '═══════════════════════════════════════════════════════',
+      `  AUTONOMOUS EXECUTION REPORT`,
+      '═══════════════════════════════════════════════════════',
+      '',
+      `  Objective: ${objective}`,
+      `  Cycles completed: ${reports.length}`,
+      `  Total tasks: ${totalCompleted}/${totalCreated} completed`,
+      `  Total duration: ${(totalDuration / 1000).toFixed(1)}s`,
+      '',
+      '  ── Cycle Details ──',
+      '',
+      ...reports.map(r => [
+        `  Cycle ${r.cycle}: ${r.tasksCompleted}/${r.tasksCreated} tasks (${(r.duration / 1000).toFixed(1)}s)`,
+        `    ${r.summary.substring(0, 150)}`,
+      ].join('\n')),
+      '',
+      '  ── System State ──',
+      '',
+      `  Knowledge base: ${this.kb.size} entries`,
+      `  Artifacts: ${this.artifacts.size} files`,
+      `  Messages: ${this.bus.totalMessages}`,
+      '',
+      this.board.getSummary(),
+      '',
+      this.metrics.generateReport(),
+    ].join('\n');
+
+    return result;
+  }
+
+  /**
    * Ask a specific agent a question and get a response.
    */
   async askAgent(agentId: AgentId, question: string): Promise<string> {
@@ -554,6 +634,20 @@ export class Orchestrator {
    */
   getArtifactsSummary(): string {
     return this.artifacts.getSummary();
+  }
+
+  /**
+   * Get metrics report.
+   */
+  getMetricsReport(): string {
+    return this.metrics.generateReport();
+  }
+
+  /**
+   * Get event reactions summary.
+   */
+  getReactionsSummary(): string {
+    return this.reactions.getSummary();
   }
 
   // ---- State persistence ----

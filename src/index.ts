@@ -355,6 +355,42 @@ program
   });
 
 // ════════════════════════════════════════════════
+// AUTONOMY — Self-directed agent execution
+// ════════════════════════════════════════════════
+program
+  .command('autonomy')
+  .description('Run autonomous loop: CEO plans, agents execute, iterate until objective met')
+  .argument('<objective>', 'High-level objective for agents to pursue')
+  .option('-c, --cycles <number>', 'Maximum number of plan-execute-evaluate cycles', '5')
+  .option('-t, --tasks <number>', 'Max tasks per cycle', '4')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .action(async (objective: string, opts: { cycles: string; tasks: string; verbose: boolean }) => {
+    console.log(BANNER);
+    console.log(chalk.hex('#A78BFA')(`\n🤖 Starting autonomous execution: "${objective}"\n`));
+    console.log(chalk.gray(`   Max ${opts.cycles} cycles, ${opts.tasks} tasks/cycle\n`));
+
+    const orchestrator = createOrchestrator(opts.verbose);
+    const report = await orchestrator.runAutonomous(objective, {
+      maxCycles: parseInt(opts.cycles, 10),
+      maxTasksPerCycle: parseInt(opts.tasks, 10),
+      verbose: opts.verbose,
+    });
+    console.log('\n' + report);
+  });
+
+// ════════════════════════════════════════════════
+// METRICS — Show system metrics
+// ════════════════════════════════════════════════
+program
+  .command('metrics')
+  .description('Show agent performance metrics')
+  .action(() => {
+    console.log(BANNER);
+    const orchestrator = createOrchestrator(false);
+    console.log(orchestrator.getMetricsReport());
+  });
+
+// ════════════════════════════════════════════════
 // REPL — Interactive mode
 // ════════════════════════════════════════════════
 program
