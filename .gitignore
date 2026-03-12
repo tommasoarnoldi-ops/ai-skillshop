@@ -2,6 +2,8 @@ node_modules/
 dist/
 output/
 .forgeai-state/
+.forgeai-conversations/
+.test-conversations/
 .env
 .env.local
 *.log
