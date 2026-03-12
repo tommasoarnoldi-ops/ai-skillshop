@@ -9,4 +9,7 @@ export { StatePersistence } from './state-persistence.js';
 export { AutonomyLoop } from './autonomy-loop.js';
 export { MetricsTracker } from './metrics.js';
 export { EventReactionEngine, createDefaultReactions } from './event-reactions.js';
+export { ChatRoom } from './chat-room.js';
+export { Scheduler, createDefaultJobs } from './scheduler.js';
+export { Dashboard } from './dashboard.js';
 export { Orchestrator } from './orchestrator.js';

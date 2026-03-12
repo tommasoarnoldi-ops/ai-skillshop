@@ -13,6 +13,9 @@ import { StatePersistence } from './state-persistence.js';
 import { AutonomyLoop, type AutonomyConfig, type CycleReport } from './autonomy-loop.js';
 import { MetricsTracker } from './metrics.js';
 import { EventReactionEngine, createDefaultReactions } from './event-reactions.js';
+import { ChatRoom, type ChatRoomConfig } from './chat-room.js';
+import { Scheduler, createDefaultJobs } from './scheduler.js';
+import { Dashboard } from './dashboard.js';
 import { CEOAgent } from '../agents/ceo-agent.js';
 import { CTOAgent } from '../agents/cto-agent.js';
 import { ProductManagerAgent } from '../agents/product-manager-agent.js';
@@ -46,6 +49,9 @@ export class Orchestrator {
   readonly autonomy: AutonomyLoop;
   readonly metrics: MetricsTracker;
   readonly reactions: EventReactionEngine;
+  readonly chatRoom: ChatRoom;
+  readonly scheduler: Scheduler;
+  readonly dashboard: Dashboard;
 
   // Individual agent references for direct access
   readonly ceo: CEOAgent;
@@ -104,10 +110,33 @@ export class Orchestrator {
     this.reactions = new EventReactionEngine(this.agents, this.bus, this.board);
     createDefaultReactions(this.reactions);
 
+    // Initialize chat room
+    this.chatRoom = new ChatRoom(this.agents, this.board, this.kb);
+
+    // Initialize scheduler
+    this.scheduler = new Scheduler();
+    createDefaultJobs(this.scheduler, {
+      dailyStandup: () => this.askAgent('ceo', 'Fai il daily standup: valuta progresso, identifica blocchi, definisci priorità del giorno.'),
+      progressCheck: () => this.ceo.evaluateProgress(),
+      sprintReview: () => this.runSprint('Sprint review settimanale'),
+    });
+
+    // Initialize dashboard
+    this.dashboard = new Dashboard(
+      this.agents,
+      this.board,
+      this.kb,
+      this.artifacts,
+      this.metrics,
+      this.bus,
+      this.scheduler,
+      this.reactions,
+    );
+
     // Seed knowledge base with ForgeAI project context
     this.seedKnowledgeBase();
 
-    this.log('system', 'Orchestrator initialized: 6 agents + KB + Artifacts + Collaboration + Autonomy + Metrics + Reactions');
+    this.log('system', 'Orchestrator initialized: 6 agents + 14 systems');
   }
 
   // ---- Knowledge Base Seeding ----
@@ -542,6 +571,50 @@ export class Orchestrator {
     ].join('\n');
 
     return result;
+  }
+
+  /**
+   * Run a multi-agent chat room discussion.
+   */
+  async runChatRoom(config: ChatRoomConfig): Promise<string> {
+    this.log('chatroom', `Starting chat: "${config.topic}" with ${config.participants.join(', ')}`);
+
+    const result = await this.chatRoom.run(config);
+
+    const report = [
+      '═══════════════════════════════════════════════',
+      `CHAT ROOM: ${config.topic}`,
+      '═══════════════════════════════════════════════',
+      '',
+      ...result.history.map(m =>
+        `[${m.speaker.toUpperCase()}]:\n${m.content}\n`,
+      ),
+      '── SUMMARY ──',
+      result.summary,
+    ].join('\n');
+
+    return report;
+  }
+
+  /**
+   * Get the full dashboard view.
+   */
+  getDashboard(): string {
+    return this.dashboard.render();
+  }
+
+  /**
+   * Get compact dashboard for REPL.
+   */
+  getDashboardCompact(): string {
+    return this.dashboard.renderCompact();
+  }
+
+  /**
+   * Get scheduler summary.
+   */
+  getSchedulerSummary(): string {
+    return this.scheduler.getSummary();
   }
 
   /**

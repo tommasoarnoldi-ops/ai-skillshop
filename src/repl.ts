@@ -27,13 +27,16 @@ ${chalk.bold('Available Commands:')}
   ${chalk.cyan('/market <topic>')}          Market analysis pipeline
   ${chalk.cyan('/bootstrap')}               Generate full ForgeAI app (takes a while!)
   ${chalk.cyan('/auto <objective>')}        Run autonomous loop (CEO plans, agents iterate)
+  ${chalk.cyan('/chat <topic>')}           Multi-agent group discussion
 
+  ${chalk.cyan('/dashboard')}              Full project health dashboard
   ${chalk.cyan('/status')}                  Show all agents status
   ${chalk.cyan('/kb')}                      Show knowledge base
   ${chalk.cyan('/artifacts')}               Show generated artifacts
   ${chalk.cyan('/messages')}                Show message log
   ${chalk.cyan('/metrics')}                 Show agent performance metrics
   ${chalk.cyan('/reactions')}               Show event reaction rules
+  ${chalk.cyan('/scheduler')}               Show scheduled jobs
   ${chalk.cyan('/help')}                    Show this help
   ${chalk.cyan('/quit')}                    Exit
 
@@ -246,6 +249,30 @@ async function handleInput(
         console.log(report);
         break;
       }
+
+      case '/chat': {
+        if (!arg) {
+          console.log(chalk.yellow('Usage: /chat <topic>'));
+          break;
+        }
+        const report = await orchestrator.runChatRoom({
+          topic: arg,
+          participants: ['ceo', 'cto', 'product-manager', 'developer'],
+          maxRounds: 2,
+          moderator: 'ceo',
+          verbose: true,
+        });
+        console.log(report);
+        break;
+      }
+
+      case '/dashboard':
+        console.log(orchestrator.getDashboard());
+        break;
+
+      case '/scheduler':
+        console.log(orchestrator.getSchedulerSummary());
+        break;
 
       default:
         console.log(chalk.yellow(`Unknown command: ${cmd}. Type /help for available commands.`));

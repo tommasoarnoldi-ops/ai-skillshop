@@ -49,6 +49,9 @@
 | **Autonomy Loop** | Self-directed plan → execute → evaluate cycles |
 | **Metrics Tracker** | Agent performance monitoring and reporting |
 | **Event Reactions** | Auto-trigger actions on conditions (e.g., auto QA review on dev complete) |
+| **Chat Room** | Multi-agent group conversations with moderator and structured output |
+| **Scheduler** | Recurring job execution (daily standup, sprint review, progress checks) |
+| **Dashboard** | Consolidated project health view with visual indicators |
 | **State Persistence** | Save/restore system state across sessions |
 
 ## Setup
@@ -81,6 +84,8 @@ forgeai> /workflow "Scanner macchinari con AI Vision"
 forgeai> /debate "React Native vs Flutter per ForgeAI"
 forgeai> /auto "Costruisci l'MVP di ForgeAI in 5 cicli"
 forgeai> /feature "Knowledge base chat con RAG"
+forgeai> /chat "Strategia di lancio Q1"
+forgeai> /dashboard
 forgeai> /status
 forgeai> /metrics
 ```
@@ -111,6 +116,12 @@ npm run dev -- ask ceo "Quali sono le priorità per il primo mese?"
 
 # Full app bootstrap (generates entire ForgeAI app)
 npm run dev -- bootstrap -v
+
+# Multi-agent chat room
+npm run dev -- chat "Strategia di lancio Q1" --participants ceo,cto,marketing,product-manager
+
+# Full project dashboard
+npm run dev -- dashboard
 
 # Workflow presets
 npm run dev -- preset feature-spec "Scanner macchinari"
@@ -187,8 +198,11 @@ src/
 │   ├── autonomy-loop.ts        # Self-directed execution cycles
 │   ├── metrics.ts              # Performance tracking
 │   ├── event-reactions.ts      # Auto-trigger system
+│   ├── chat-room.ts            # Multi-agent group conversations
+│   ├── scheduler.ts            # Recurring job execution
+│   ├── dashboard.ts            # Consolidated project health view
 │   ├── state-persistence.ts    # Save/restore state
-│   └── orchestrator.ts         # Central coordinator
+│   └── orchestrator.ts         # Central coordinator (14 systems)
 ├── workflows/                  # Pre-built workflows
 │   ├── bootstrap.ts            # Full ForgeAI app generation
 │   └── startup-presets.ts      # Common startup task presets

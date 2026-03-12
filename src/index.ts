@@ -379,6 +379,46 @@ program
   });
 
 // ════════════════════════════════════════════════
+// CHAT — Multi-agent group discussion
+// ════════════════════════════════════════════════
+program
+  .command('chat')
+  .description('Run a multi-agent group discussion on a topic')
+  .argument('<topic>', 'Topic to discuss')
+  .option('-p, --participants <agents>', 'Comma-separated participants', 'ceo,cto,product-manager,developer')
+  .option('-r, --rounds <number>', 'Discussion rounds', '2')
+  .option('-m, --moderator <agent>', 'Moderator agent', 'ceo')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .action(async (topic: string, opts: { participants: string; rounds: string; moderator: string; verbose: boolean }) => {
+    console.log(BANNER);
+    console.log(chalk.hex('#EC4899')(`\n💬 Starting chat room: "${topic}"\n`));
+
+    const orchestrator = createOrchestrator(opts.verbose);
+    const participants = opts.participants.split(',').map(a => validateAgent(a.trim()));
+
+    const report = await orchestrator.runChatRoom({
+      topic,
+      participants,
+      maxRounds: parseInt(opts.rounds, 10),
+      moderator: validateAgent(opts.moderator),
+      verbose: opts.verbose,
+    });
+    console.log('\n' + report);
+  });
+
+// ════════════════════════════════════════════════
+// DASHBOARD — Full project health view
+// ════════════════════════════════════════════════
+program
+  .command('dashboard')
+  .description('Show consolidated project health dashboard')
+  .action(() => {
+    console.log(BANNER);
+    const orchestrator = createOrchestrator(false);
+    console.log(orchestrator.getDashboard());
+  });
+
+// ════════════════════════════════════════════════
 // METRICS — Show system metrics
 // ════════════════════════════════════════════════
 program
