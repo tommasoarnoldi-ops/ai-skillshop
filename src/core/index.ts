@@ -12,4 +12,7 @@ export { EventReactionEngine, createDefaultReactions } from './event-reactions.j
 export { ChatRoom } from './chat-room.js';
 export { Scheduler, createDefaultJobs } from './scheduler.js';
 export { Dashboard } from './dashboard.js';
+export { ErrorRecovery } from './error-recovery.js';
+export { AgentFactory, CustomAgent } from './agent-factory.js';
+export { ConversationManager } from './conversation-export.js';
 export { Orchestrator } from './orchestrator.js';

@@ -12,7 +12,9 @@
     "bootstrap": "tsx src/index.ts bootstrap -v",
     "sprint": "tsx src/index.ts sprint",
     "workflow": "tsx src/index.ts workflow",
-    "demo": "tsx src/index.ts demo"
+    "demo": "tsx src/index.ts demo",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -25,6 +27,7 @@
     "@types/node": "^22.10.0",
     "@types/uuid": "^10.0.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.18"
   }
 }

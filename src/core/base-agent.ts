@@ -16,6 +16,7 @@ import type {
 } from '../types/index.js';
 import type { MessageBus } from './message-bus.js';
 import type { TaskBoard } from './task-board.js';
+import { ErrorRecovery } from './error-recovery.js';
 
 /**
  * Abstract base class for all agents in the ForgeAI system.
@@ -28,6 +29,7 @@ export abstract class BaseAgent {
   protected board: TaskBoard;
   protected client: Anthropic;
   protected conversationHistory: Anthropic.MessageParam[] = [];
+  protected errorRecovery: ErrorRecovery;
 
   constructor(
     config: AgentConfig,
@@ -39,6 +41,7 @@ export abstract class BaseAgent {
     this.bus = bus;
     this.board = board;
     this.client = new Anthropic({ apiKey });
+    this.errorRecovery = new ErrorRecovery({ maxRetries: 3, baseDelayMs: 1000 });
 
     this.state = {
       id: config.id,
@@ -136,17 +139,23 @@ export abstract class BaseAgent {
     }
 
     try {
-      const response = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4096,
-        system: this.config.systemPrompt,
-        messages: this.conversationHistory,
-      });
+      const text = await this.errorRecovery.withRetry(
+        this.config.id,
+        'think',
+        async () => {
+          const response = await this.client.messages.create({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 4096,
+            system: this.config.systemPrompt,
+            messages: this.conversationHistory,
+          });
 
-      const text = response.content
-        .filter((b): b is Anthropic.TextBlock => b.type === 'text')
-        .map((b) => b.text)
-        .join('\n');
+          return response.content
+            .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+            .map((b) => b.text)
+            .join('\n');
+        },
+      );
 
       this.conversationHistory.push({ role: 'assistant', content: text });
       this.state.status = 'idle';
