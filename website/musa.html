@@ -56,7 +56,7 @@
   <div id="site-header"></div>
 
   <!-- HERO -->
-  <header class="m-hero">
+  <header class="m-hero" id="top">
     <canvas class="particles" data-particles></canvas>
     <div class="aurora"><b></b><b></b><b></b></div>
     <div class="container">
@@ -130,7 +130,7 @@
   </section>
 
   <!-- CONTESTO -->
-  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <section class="section" id="contesto" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="container">
       <div class="sec-head" data-reveal>
         <span class="eyebrow" data-en="03 · The context">03 · Il contesto</span>
@@ -162,7 +162,7 @@
           </div>
         </div>
         <div class="split__media" data-reveal data-delay="1">
-          <div class="bot" data-sim-chat data-tilt>
+          <div class="bot fancy-border" data-sim-chat data-tilt>
             <div class="bot__head">
               <span class="bot__avatar">M</span>
               <div><strong style="display:block;font-size:.95rem">MUSA</strong><span class="chat-meta" data-en="Online · live conversation">Online · conversazione live</span></div>
@@ -177,7 +177,7 @@
   </section>
 
   <!-- APPLICAZIONE — TABS -->
-  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <section class="section" id="applicazione" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="container">
       <div class="sec-head" data-reveal>
         <span class="eyebrow" data-en="05 · Application">05 · Applicazione</span>
@@ -223,7 +223,7 @@
   </section>
 
   <!-- FLOW -->
-  <section class="section">
+  <section class="section" id="flow">
     <div class="container">
       <div class="sec-head" data-reveal>
         <span class="eyebrow" data-en="06 · Flow">06 · Flow</span>
@@ -244,14 +244,14 @@
   </section>
 
   <!-- DASHBOARD — data-free -->
-  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <section class="section" id="dashboard" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="container">
       <div class="sec-head" data-reveal>
         <span class="eyebrow" data-en="07 · Dashboard">07 · Dashboard</span>
         <h2 class="display" data-en-html="The human who<br>corrects the machine">L'umano che<br />corregge la macchina</h2>
         <p class="lead" data-en="Knowledge Leader Dashboard & Ticketing: every gap becomes a managed, tracked and resolved ticket. Real-time monitoring of coverage, quality and escalation.">Knowledge Leader Dashboard & Ticketing: ogni gap diventa un ticket gestito, tracciato e risolto. Monitoraggio in tempo reale di copertura, qualità ed escalation.</p>
       </div>
-      <div class="viz" data-reveal data-tilt>
+      <div class="viz fancy-border" data-reveal data-tilt>
         <div class="viz__scan"></div>
         <div class="viz__bar">
           <span class="dash__dot"></span><span class="dash__dot"></span><span class="dash__dot"></span>
@@ -290,7 +290,7 @@
   </section>
 
   <!-- GOVERNANCE -->
-  <section class="section">
+  <section class="section" id="governance">
     <div class="container">
       <div class="sec-head" data-reveal>
         <span class="eyebrow" data-en="08 · Governance">08 · Governance</span>
@@ -366,6 +366,38 @@
           <div class="org__role"><div class="r">Tech Lead</div><div class="d" data-en="MUSA architecture and development">Architettura e sviluppo MUSA</div></div>
           <div class="org__role"><div class="r">AI Engineer</div><div class="d" data-en="Models and AI pipelines">Modelli e pipeline AI</div></div>
           <div class="org__role"><div class="r">Infra & DevOps</div><div class="d" data-en="Deploy, monitoring, security">Deploy, monitoraggio, sicurezza</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="sec-head center" data-reveal>
+        <span class="eyebrow eyebrow--center" data-en="11 · FAQ">11 · Domande frequenti</span>
+        <h2 class="display" data-en="Everything you want to know">Tutto quello che vuoi sapere</h2>
+      </div>
+      <div class="faq" data-faq data-reveal>
+        <div class="faq__item">
+          <button class="faq__q" type="button"><span data-en="Does MUSA replace operators?">MUSA sostituisce gli operatori?</span><span class="faq__ic"></span></button>
+          <div class="faq__a"><div><p data-en="No: it's an operational copilot. It optimises human work and escalates to a person whenever needed. Control always stays with the team.">No: è un copilota operativo. Ottimizza il lavoro umano e fa escalation a una persona quando serve. Il controllo resta sempre al team.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button"><span data-en="Which channels does it work on?">Su quali canali funziona?</span><span class="faq__ic"></span></button>
+          <div class="faq__a"><div><p data-en="Chat and voice, 24/7, across every digital channel — with a single intelligence behind all interactions.">Chat e voce, 24/7, su tutti i canali digitali, con un'unica intelligenza dietro ogni interazione.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button"><span data-en="What happens if MUSA doesn't know the answer?">Cosa succede se MUSA non sa rispondere?</span><span class="faq__ic"></span></button>
+          <div class="faq__a"><div><p data-en="It never improvises: it opens a ticket, the Knowledge Leader updates the KB and MUSA learns for next time.">Non improvvisa mai: apre un ticket, il Knowledge Leader aggiorna la knowledge base e MUSA impara per la volta successiva.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button"><span data-en="Is our data safe?">I nostri dati sono al sicuro?</span><span class="faq__ic"></span></button>
+          <div class="faq__a"><div><p data-en="Yes: data stays in your protected environment, with governance and tracking tailored to each role.">Sì: i dati restano nel tuo ambiente protetto, con governance e tracciamento dedicati a ogni ruolo.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button"><span data-en="How long does it take to go live?">Quanto tempo serve per partire?</span><span class="faq__ic"></span></button>
+          <div class="faq__a"><div><p data-en="It depends on volumes and existing knowledge. We support you from onboarding all the way to continuous improvement.">Dipende dai volumi e dalla knowledge esistente. Ti accompagniamo dall'onboarding fino al miglioramento continuo.</p></div></div>
         </div>
       </div>
     </div>

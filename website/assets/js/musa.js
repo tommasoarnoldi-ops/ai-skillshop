@@ -20,6 +20,53 @@
     menu.insertBefore(sw, cta || null);
   })();
 
+  /* ===== Scroll-spy side navigation ===== */
+  const spyItems = [
+    { id: 'top', it: 'Intro', en: 'Intro' },
+    { id: 'filosofia', it: 'Filosofia', en: 'Philosophy' },
+    { id: 'contesto', it: 'Contesto', en: 'Context' },
+    { id: 'demo', it: 'Prodotto', en: 'Product' },
+    { id: 'applicazione', it: 'Applicazione', en: 'Application' },
+    { id: 'flow', it: 'Flow', en: 'Flow' },
+    { id: 'dashboard', it: 'Dashboard', en: 'Dashboard' },
+    { id: 'governance', it: 'Governance', en: 'Governance' },
+    { id: 'faq', it: 'FAQ', en: 'FAQ' },
+  ];
+  (function buildSpy() {
+    const wrap = document.createElement('nav');
+    wrap.className = 'spy';
+    wrap.setAttribute('aria-label', 'Sezioni');
+    spyItems.forEach((it) => {
+      const a = document.createElement('a');
+      a.href = '#' + it.id;
+      a.dataset.spy = it.id;
+      a.setAttribute('data-label', it.it);
+      wrap.appendChild(a);
+    });
+    document.body.appendChild(wrap);
+    const anchors = Array.prototype.slice.call(wrap.children);
+    window.__spyLabels = (lang) => spyItems.forEach((it, i) => anchors[i].setAttribute('data-label', it[lang] || it.it));
+    const secs = spyItems.map((it) => document.getElementById(it.id)).filter(Boolean);
+    const obs = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) anchors.forEach((a) => a.classList.toggle('active', a.dataset.spy === e.target.id));
+    }), { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    secs.forEach((s) => obs.observe(s));
+  })();
+
+  /* ===== FAQ accordion (single-open) ===== */
+  (function faq() {
+    const items = $$('[data-faq] .faq__item');
+    items.forEach((item) => {
+      const q = $('.faq__q', item);
+      if (!q) return;
+      q.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        items.forEach((i) => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  })();
+
   /* ===== Preloader ===== */
   const pre = $('[data-preloader]');
   if (pre) {
@@ -277,6 +324,7 @@
     $$('[data-set-lang]').forEach((b) => b.classList.toggle('active', b.dataset.setLang === lang));
     try { localStorage.setItem('musa-lang', lang); } catch (e) {}
     window.__musaLang = lang;
+    if (window.__spyLabels) window.__spyLabels(lang);
     if (window.__simStarted) playSim(); // restart only if already running
   };
   $$('[data-set-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.setLang)));

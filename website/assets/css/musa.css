@@ -187,6 +187,52 @@
    CHICCHE — premium extra touches
    ========================================================= */
 
+/* animated gradient border around showcase cards */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+.fancy-border{position:relative}
+.fancy-border::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;
+  background:conic-gradient(from var(--ang),transparent 0deg,rgba(248,233,0,.9) 60deg,transparent 140deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:spinborder 6s linear infinite;opacity:.7;pointer-events:none;z-index:2}
+@keyframes spinborder{to{--ang:360deg}}
+
+/* shine sweep on primary buttons (page-scoped) */
+.btn--primary{position:relative;overflow:hidden}
+.btn--primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .7s var(--ease)}
+.btn--primary:hover::after{left:140%}
+
+/* scroll-spy side navigation */
+.spy{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:1150;display:flex;flex-direction:column;gap:14px}
+.spy a{position:relative;width:11px;height:11px;border-radius:50%;background:var(--surface-3);border:1px solid var(--line);transition:.3s;cursor:pointer}
+.spy a::after{content:attr(data-label);position:absolute;right:24px;top:50%;transform:translateY(-50%) translateX(6px);
+  background:var(--surface);border:1px solid var(--line);color:var(--text);font-size:.72rem;white-space:nowrap;
+  padding:5px 11px;border-radius:100px;opacity:0;pointer-events:none;transition:.3s}
+.spy a:hover::after{opacity:1;transform:translateY(-50%) translateX(0)}
+.spy a:hover{border-color:var(--yellow)}
+.spy a.active{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 0 4px rgba(248,233,0,.14)}
+@media(max-width:1100px){.spy{display:none}}
+
+/* FAQ accordion */
+.faq{max-width:880px;margin:0 auto}
+.faq__item{border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden;background:var(--surface);transition:border-color .3s}
+.faq__item.open{border-color:rgba(248,233,0,.35)}
+.faq__q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  background:none;border:none;color:var(--white);font-family:var(--font-display);font-size:clamp(1rem,2vw,1.25rem);
+  text-align:left;padding:24px 26px;cursor:pointer;transition:color .3s}
+.faq__q:hover{color:var(--yellow)}
+.faq__ic{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);position:relative;transition:.3s}
+.faq__ic::before,.faq__ic::after{content:"";position:absolute;background:var(--yellow);top:50%;left:50%;transform:translate(-50%,-50%)}
+.faq__ic::before{width:11px;height:2px}
+.faq__ic::after{width:2px;height:11px;transition:transform .3s}
+.faq__item.open .faq__ic{border-color:var(--yellow);transform:rotate(90deg)}
+.faq__item.open .faq__ic::after{transform:translate(-50%,-50%) scaleY(0)}
+.faq__a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.faq__item.open .faq__a{grid-template-rows:1fr}
+.faq__a>div{overflow:hidden}
+.faq__a p{color:var(--muted);padding:0 26px 26px;font-size:.98rem;line-height:1.6}
+
 /* film grain overlay */
 .grain{position:fixed;inset:0;z-index:1500;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -231,7 +277,7 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 
 /* ---- Reduced motion ---- */
 @media(prefers-reduced-motion:reduce){
-  .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span,.grain{animation:none!important}
+  .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span,.grain,.fancy-border::before{animation:none!important}
   .m-title{-webkit-text-fill-color:#fff;color:#fff}
   .grain{display:none}
 }
