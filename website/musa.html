@@ -45,19 +45,10 @@
     </div>
   </div>
 
-  <!-- CUSTOM CURSOR -->
-  <div class="cursor-ring" data-cursor-ring></div>
-  <div class="cursor-dot" data-cursor-dot></div>
-
   <!-- SCROLL PROGRESS -->
   <div class="scrollbar"></div>
 
-  <!-- LANGUAGE SWITCH -->
-  <div class="lang-switch" data-lang>
-    <button class="lang-btn active" data-set-lang="it">IT</button>
-    <span>·</span>
-    <button class="lang-btn" data-set-lang="en">EN</button>
-  </div>
+  <!-- (language switch is injected into the navbar by musa.js) -->
 
   <div id="site-header"></div>
 
@@ -78,7 +69,14 @@
       </div>
       <div class="hero__actions" data-reveal data-delay="3">
         <a class="btn btn--primary" data-magnetic href="contatti.html" data-en="Request a demo →">Richiedi una demo <span class="ico">→</span></a>
-        <a class="btn btn--ghost" href="#demo" data-en="Try MUSA">Prova MUSA</a>
+        <a class="btn btn--ghost" href="#demo" data-en="See it in action">Guardala in azione</a>
+      </div>
+      <div class="hero__channels" data-reveal data-delay="4">
+        <span class="hero__channels-label" data-en="Available on">Disponibile su</span>
+        <span class="chip-mini">Chat</span>
+        <span class="chip-mini" data-en="Voice">Voce</span>
+        <span class="chip-mini">Email</span>
+        <span class="chip-mini" data-en="Digital channels">Canali digitali</span>
       </div>
       <a class="scroll-cue" href="#filosofia" data-reveal data-delay="4" data-en="Scroll to explore"><i></i> Scorri per esplorare</a>
     </div>
@@ -144,27 +142,22 @@
     <div class="container">
       <div class="split">
         <div data-reveal>
-          <span class="eyebrow" data-en="04 · The product · Try it live">04 · Il prodotto · Provala dal vivo</span>
+          <span class="eyebrow" data-en="04 · The product · Live">04 · Il prodotto · Dal vivo</span>
           <h2 class="display" style="margin:22px 0" data-en-html="One intelligence.<br>Many channels.">Un'unica intelligenza.<br />Più canali.</h2>
-          <p class="lead" data-en="MUSA was born from our thirty years in customer experience: an AI ecosystem to support operators, supervisors, management and assist the end customer. Write below and try it.">MUSA nasce dalla nostra trentennale esperienza nella customer experience: un ecosistema AI per supportare operatori, supervisori, management e assistere il cliente finale. Scrivi qui sotto e provala.</p>
+          <p class="lead" data-en="MUSA was born from our thirty years in customer experience: an AI ecosystem to support operators, supervisors, management and assist the end customer. Here's a conversation, handled in real time.">MUSA nasce dalla nostra trentennale esperienza nella customer experience: un ecosistema AI per supportare operatori, supervisori, management e assistere il cliente finale. Ecco una conversazione, gestita in tempo reale.</p>
           <div class="grid grid-2" style="margin-top:32px">
             <div class="card card--accent spot" data-tilt><div class="card__icon">💬</div><h3 data-en="Chatbot AI">Chatbot AI</h3><p class="mt-s" data-en="Smart text conversations, 24/7 on every digital channel.">Conversazioni intelligenti su testo, 24/7 su tutti i canali digitali.</p></div>
             <div class="card card--accent spot" data-tilt><div class="card__icon">🎙️</div><h3 data-en="Voicebot AI">Voicebot AI</h3><p class="mt-s" data-en="Natural voice handling: the platform's extension from chat to voice.">Gestione vocale naturale: l'estensione della piattaforma dalla chat alla voce.</p></div>
           </div>
         </div>
         <div class="split__media" data-reveal data-delay="1">
-          <div class="bot" data-bot>
+          <div class="bot" data-sim-chat>
             <div class="bot__head">
               <span class="bot__avatar">M</span>
-              <div><strong style="display:block;font-size:.95rem">MUSA</strong><span class="chat-meta" data-en="Online · demo assistant">Online · assistente demo</span></div>
+              <div><strong style="display:block;font-size:.95rem">MUSA</strong><span class="chat-meta" data-en="Online · live conversation">Online · conversazione live</span></div>
               <span class="tag tag--live" style="margin-left:auto">Live</span>
             </div>
-            <div class="bot__log" data-bot-log></div>
-            <div class="bot__chips" data-bot-chips></div>
-            <form class="bot__input" data-bot-form autocomplete="off">
-              <input type="text" data-bot-text data-en-ph="Type a message..." placeholder="Scrivi un messaggio..." aria-label="Messaggio" />
-              <button type="submit" aria-label="Invia">→</button>
-            </form>
+            <div class="bot__log" data-sim-log></div>
           </div>
         </div>
       </div>
