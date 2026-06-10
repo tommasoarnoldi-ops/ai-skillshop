@@ -48,6 +48,9 @@
   <!-- SCROLL PROGRESS -->
   <div class="scrollbar"></div>
 
+  <!-- film grain texture -->
+  <div class="grain" aria-hidden="true"></div>
+
   <!-- (language switch is injected into the navbar by musa.js) -->
 
   <div id="site-header"></div>
@@ -81,6 +84,14 @@
       <a class="scroll-cue" href="#filosofia" data-reveal data-delay="4" data-en="Scroll to explore"><i></i> Scorri per esplorare</a>
     </div>
   </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Chatbot AI</span><span>Voicebot AI</span><span>Human + AI</span><span>Knowledge Engineering</span><span>Real-time</span><span>Omnichannel</span><span>24/7</span>
+      <span>Chatbot AI</span><span>Voicebot AI</span><span>Human + AI</span><span>Knowledge Engineering</span><span>Real-time</span><span>Omnichannel</span><span>24/7</span>
+    </div>
+  </div>
 
   <!-- FILOSOFIA -->
   <section class="section" id="filosofia" style="border-top:1px solid var(--line)">
@@ -151,11 +162,12 @@
           </div>
         </div>
         <div class="split__media" data-reveal data-delay="1">
-          <div class="bot" data-sim-chat>
+          <div class="bot" data-sim-chat data-tilt>
             <div class="bot__head">
               <span class="bot__avatar">M</span>
               <div><strong style="display:block;font-size:.95rem">MUSA</strong><span class="chat-meta" data-en="Online · live conversation">Online · conversazione live</span></div>
-              <span class="tag tag--live" style="margin-left:auto">Live</span>
+              <button class="sound-btn" data-sound type="button" aria-label="Audio chat" title="Audio chat">🔇</button>
+              <span class="tag tag--live">Live</span>
             </div>
             <div class="bot__log" data-sim-log></div>
           </div>
@@ -239,7 +251,7 @@
         <h2 class="display" data-en-html="The human who<br>corrects the machine">L'umano che<br />corregge la macchina</h2>
         <p class="lead" data-en="Knowledge Leader Dashboard & Ticketing: every gap becomes a managed, tracked and resolved ticket. Real-time monitoring of coverage, quality and escalation.">Knowledge Leader Dashboard & Ticketing: ogni gap diventa un ticket gestito, tracciato e risolto. Monitoraggio in tempo reale di copertura, qualità ed escalation.</p>
       </div>
-      <div class="viz" data-reveal>
+      <div class="viz" data-reveal data-tilt>
         <div class="viz__scan"></div>
         <div class="viz__bar">
           <span class="dash__dot"></span><span class="dash__dot"></span><span class="dash__dot"></span>
@@ -373,6 +385,12 @@
       </div>
     </div>
   </section>
+
+  <!-- BACK TO TOP -->
+  <button class="to-top" data-to-top type="button" aria-label="Torna su">
+    <svg viewBox="0 0 52 52"><circle class="track" cx="26" cy="26" r="24.5"></circle><circle class="prog" data-top-prog cx="26" cy="26" r="24.5"></circle></svg>
+    <b>↑</b>
+  </button>
 
   <div id="site-footer"></div>
   <script src="assets/js/components.js"></script>

@@ -186,6 +186,41 @@
       { who: 'ai', text: 'No problem: I escalate immediately to the team. Control always stays with people.' },
     ],
   };
+  /* soft UI sound (WebAudio, muted by default) */
+  let audioCtx = null, soundOn = false;
+  const blip = (who) => {
+    if (!soundOn) return;
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = audioCtx.currentTime;
+      o.type = 'sine';
+      o.frequency.value = who === 'ai' ? 523 : 392;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.06, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + 0.2);
+    } catch (e) {}
+  };
+  const soundBtn = $('[data-sound]');
+  if (soundBtn) soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? '🔊' : '🔇';
+    soundBtn.classList.toggle('on', soundOn);
+    if (soundOn) blip('ai');
+  });
+
+  /* time-aware greeting */
+  const greeting = () => {
+    const h = new Date().getHours();
+    if ((window.__musaLang || 'it') === 'en') {
+      const g = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+      return g + "! I'm MUSA, how can I help you? ✦";
+    }
+    const g = h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
+    return g + '! Sono MUSA, come posso aiutarti? ✦';
+  };
+
   const sim = $('[data-sim-chat]');
   let simLog, simTimers = [];
   const clearSim = () => { simTimers.forEach(clearTimeout); simTimers = []; };
@@ -194,12 +229,13 @@
     el.className = 'bmsg ' + (m.who === 'ai' ? 'ai' : 'user');
     el.textContent = m.text;
     simLog.appendChild(el);
+    blip(m.who);
   };
   const playSim = () => {
     if (!simLog) return;
     clearSim();
     simLog.innerHTML = '';
-    const script = SIM[window.__musaLang || 'it'];
+    const script = [{ who: 'ai', text: greeting() }].concat(SIM[window.__musaLang || 'it']);
     if (reduce) { script.forEach((m) => { addBubble(m); }); simLog.querySelectorAll('.bmsg').forEach((b) => (b.style.opacity = 1, b.style.transform = 'none', b.style.animation = 'none')); return; }
     let t = 500;
     script.forEach((m) => {
@@ -257,6 +293,73 @@
     }), { threshold: 0.35 });
     sio.observe(sim);
   }
+
+  /* ===== Chicca: scramble/decode on section labels ===== */
+  if (!reduce) {
+    const CH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·/+';
+    const scramble = (el) => {
+      const final = el.textContent;
+      el.classList.add('scrambling');
+      let f = 0;
+      const id = setInterval(() => {
+        f++;
+        let out = '';
+        for (let i = 0; i < final.length; i++) {
+          if (i < f / 2 || final[i] === ' ' || final[i] === '·') out += final[i];
+          else out += CH[Math.floor(Math.random() * CH.length)];
+        }
+        el.textContent = out;
+        if (f / 2 >= final.length) { clearInterval(id); el.textContent = final; el.classList.remove('scrambling'); }
+      }, 32);
+    };
+    const eio = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { scramble(e.target); eio.unobserve(e.target); }
+    }), { threshold: 0.6 });
+    $$('.eyebrow').forEach((el) => eio.observe(el));
+  }
+
+  /* ===== Chicca: back-to-top with progress ring ===== */
+  const toTop = $('[data-to-top]');
+  const topProg = $('[data-top-prog]');
+  const C = 154;
+  const updTop = () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+    if (topProg) topProg.style.strokeDashoffset = (C * (1 - p)).toFixed(1);
+    if (toTop) toTop.classList.toggle('show', h.scrollTop > 600);
+  };
+  window.addEventListener('scroll', updTop, { passive: true });
+  updTop();
+  if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ===== Chicca: easter egg — type "musa" ===== */
+  const confetti = () => {
+    const colors = ['#F8E900', '#FFFFFF', '#D9CC00'];
+    for (let i = 0; i < 46; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[i % colors.length];
+      document.body.appendChild(c);
+      const dx = (Math.random() - 0.5) * 260;
+      c.animate(
+        [{ transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+         { transform: `translate(${dx}px,${window.innerHeight + 80}px) rotate(${Math.random() * 720}deg)`, opacity: 0.9 }],
+        { duration: 1800 + Math.random() * 1200, easing: 'cubic-bezier(.2,.6,.3,1)' }
+      ).onfinish = () => c.remove();
+    }
+  };
+  let buf = '';
+  window.addEventListener('keydown', (e) => {
+    if (!e.key || e.key.length !== 1) return;
+    buf = (buf + e.key.toLowerCase()).slice(-4);
+    if (buf === 'musa') {
+      buf = '';
+      if (!reduce) confetti();
+      const t = $('.m-title');
+      if (t) { t.classList.add('pulse'); setTimeout(() => t.classList.remove('pulse'), 650); }
+    }
+  });
 
   setLang(saved);
 })();

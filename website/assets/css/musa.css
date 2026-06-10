@@ -183,10 +183,57 @@
 .gov-row span{color:var(--text)}
 .gov-row .meta{color:var(--faint);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
 
+/* =========================================================
+   CHICCHE — premium extra touches
+   ========================================================= */
+
+/* film grain overlay */
+.grain{position:fixed;inset:0;z-index:1500;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .5s steps(2) infinite}
+@keyframes grain{0%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}100%{transform:translate(2%,-3%)}}
+
+/* custom scrollbar (page-scoped via musa.css) */
+*::-webkit-scrollbar{width:11px;height:11px}
+*::-webkit-scrollbar-track{background:var(--bg-2)}
+*::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:8px;border:2px solid var(--bg-2)}
+*::-webkit-scrollbar-thumb:hover{background:var(--yellow)}
+html{scrollbar-color:var(--surface-3) var(--bg-2)}
+
+/* scramble caret */
+.scrambling{color:var(--yellow)}
+
+/* back-to-top with progress ring */
+.to-top{position:fixed;right:24px;bottom:24px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(11,11,11,.7);backdrop-filter:blur(10px);border:1px solid var(--line);cursor:pointer;
+  opacity:0;transform:translateY(18px);transition:opacity .4s,transform .4s,border-color .3s;z-index:1200}
+.to-top.show{opacity:1;transform:none}
+.to-top:hover{border-color:var(--yellow)}
+.to-top svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.to-top .track{fill:none;stroke:var(--surface-3);stroke-width:2}
+.to-top .prog{fill:none;stroke:var(--yellow);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:154;stroke-dashoffset:154;filter:drop-shadow(0 0 4px rgba(248,233,0,.6))}
+.to-top b{color:var(--yellow);font-size:1.1rem;line-height:1}
+
+/* sound toggle in chat head */
+.sound-btn{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);width:32px;height:32px;
+  border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.25s;margin-left:auto;font-size:.85rem}
+.sound-btn:hover{border-color:var(--yellow);color:var(--yellow)}
+.sound-btn.on{color:var(--yellow);border-color:rgba(248,233,0,.4)}
+.bot__head .tag--live{margin-left:10px!important}
+
+/* confetti */
+.confetti{position:fixed;top:-20px;width:11px;height:11px;background:var(--yellow);z-index:2000;pointer-events:none;border-radius:2px}
+
+/* easter-egg title pulse */
+.m-title.pulse{animation:shimmer 6s linear infinite,pop .6s var(--ease)}
+@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.04)}100%{transform:scale(1)}}
+
 /* ---- Reduced motion ---- */
 @media(prefers-reduced-motion:reduce){
-  .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span{animation:none!important}
+  .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span,.grain{animation:none!important}
   .m-title{-webkit-text-fill-color:#fff;color:#fff}
+  .grain{display:none}
 }
 
 @media(max-width:980px){
