@@ -1,0 +1,4 @@
+# Netlify: il sito statico viene servito dalla sottocartella website/
+[build]
+  publish = "website"
+  command = ""
