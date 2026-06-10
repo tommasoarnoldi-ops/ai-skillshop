@@ -1,0 +1,170 @@
+/* =========================================================
+   MUSA — page-specific dynamism & visuals (2026)
+   Loaded only on musa.html. Data-free, motion-rich.
+   ========================================================= */
+
+/* ---- Scroll progress bar ---- */
+.scrollbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:1100;
+  background:linear-gradient(90deg,var(--yellow),#fff7a0);box-shadow:0 0 14px rgba(248,233,0,.7)}
+
+/* ---- Hero: animated aurora ---- */
+.m-hero{position:relative;padding:200px 0 100px;overflow:hidden;isolation:isolate}
+.aurora{position:absolute;inset:-20% -10% auto -10%;height:120%;z-index:-1;filter:blur(60px);opacity:.7;pointer-events:none}
+.aurora b{position:absolute;border-radius:50%;mix-blend-mode:screen;animation:drift 18s ease-in-out infinite}
+.aurora b:nth-child(1){width:46vw;height:46vw;top:-8%;right:-4%;background:radial-gradient(circle,rgba(248,233,0,.55),transparent 60%);animation-delay:-2s}
+.aurora b:nth-child(2){width:34vw;height:34vw;top:18%;left:-6%;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 60%);animation-delay:-7s}
+.aurora b:nth-child(3){width:30vw;height:30vw;bottom:-12%;left:30%;background:radial-gradient(circle,rgba(248,233,0,.22),transparent 60%);animation-delay:-11s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4vw,3vh) scale(1.1)}66%{transform:translate(-3vw,-2vh) scale(.95)}}
+
+/* MUSA title with animated shimmer gradient */
+.m-title{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(5.5rem,22vw,20rem);line-height:.8;letter-spacing:-.05em;
+  background:linear-gradient(105deg,#fff 0%,#fff 40%,var(--yellow) 50%,#fff 60%,#fff 100%);
+  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 6s linear infinite}
+@keyframes shimmer{to{background-position:-280% 0}}
+.m-title .dot{-webkit-text-fill-color:var(--yellow);color:var(--yellow)}
+
+/* rotating words */
+.rotator{display:inline-flex;flex-direction:column;height:1.2em;overflow:hidden;vertical-align:bottom}
+.rotator span{height:1.2em;line-height:1.2em;color:var(--yellow);font-weight:600;animation:roll 9s infinite}
+@keyframes roll{
+  0%,12%{transform:translateY(0)}
+  16%,29%{transform:translateY(-100%)}
+  33%,46%{transform:translateY(-200%)}
+  50%,100%{transform:translateY(0)}
+}
+
+/* scroll cue */
+.scroll-cue{display:inline-flex;align-items:center;gap:10px;color:var(--muted);font-size:.8rem;
+  text-transform:uppercase;letter-spacing:.2em;margin-top:54px}
+.scroll-cue i{width:22px;height:34px;border:1.5px solid var(--line);border-radius:12px;position:relative;display:inline-block}
+.scroll-cue i::after{content:"";position:absolute;top:6px;left:50%;width:3px;height:6px;border-radius:3px;background:var(--yellow);transform:translateX(-50%);animation:cue 1.6s infinite}
+@keyframes cue{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}80%,100%{opacity:0;transform:translate(-50%,12px)}}
+
+/* ---- Magnetic & spotlight cards ---- */
+.spot{position:relative}
+.spot::after{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .4s;pointer-events:none;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(248,233,0,.14),transparent 60%)}
+.spot:hover::after{opacity:1}
+
+/* ---- Section divider tag / animated underline ---- */
+.u-line{position:relative;display:inline-block}
+.u-line::after{content:"";position:absolute;left:0;bottom:-8px;height:3px;width:0;background:var(--yellow);transition:width .9s var(--ease) .2s}
+.in .u-line::after,[data-reveal].in.u-line::after{width:100%}
+
+/* ---- Interactive tabs (Application) ---- */
+.tabs__nav{display:inline-flex;gap:6px;background:var(--surface);border:1px solid var(--line);
+  border-radius:100px;padding:6px;margin-bottom:34px}
+.tabs__btn{border:none;background:transparent;color:var(--muted);padding:12px 26px;border-radius:100px;
+  font-weight:600;font-size:.92rem;cursor:pointer;transition:.3s;font-family:var(--font-body)}
+.tabs__btn.active{background:var(--yellow);color:#0B0B0B}
+.tabs__panel{display:none;animation:fade .5s var(--ease)}
+.tabs__panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---- Typed live conversation ---- */
+.live-chat{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);
+  border-radius:24px;padding:24px;min-height:340px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.live-chat__head{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.live-chat__avatar{width:34px;height:34px;border-radius:10px;background:var(--yellow);color:#0B0B0B;display:grid;place-items:center;font-weight:700}
+.lc-msg{padding:13px 17px;border-radius:16px;max-width:82%;font-size:.94rem;line-height:1.5;opacity:0;transform:translateY(10px);animation:msgIn .5s var(--ease) forwards}
+.lc-user{background:var(--surface-3);align-self:flex-end;border-bottom-right-radius:4px}
+.lc-ai{background:var(--yellow);color:#0B0B0B;align-self:flex-start;border-bottom-left-radius:4px;font-weight:500}
+@keyframes msgIn{to{opacity:1;transform:none}}
+.lc-typing{align-self:flex-start;background:var(--yellow);border-radius:16px;border-bottom-left-radius:4px;padding:14px 18px;display:inline-flex;gap:5px}
+.lc-typing span{width:7px;height:7px;border-radius:50%;background:#0B0B0B;animation:typing 1.2s infinite}
+.lc-typing span:nth-child(2){animation-delay:.2s}.lc-typing span:nth-child(3){animation-delay:.4s}
+
+/* ---- FLOW: line that draws on scroll ---- */
+.m-flow{position:relative}
+.m-flow__track{position:absolute;top:52px;left:6%;right:6%;height:2px;background:var(--line);overflow:hidden;border-radius:2px}
+.m-flow__track i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--yellow),#fff7a0);box-shadow:0 0 12px var(--yellow);transition:width 1.6s var(--ease)}
+.m-flow.in .m-flow__track i{width:100%}
+.m-flow__steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;position:relative}
+.m-step{text-align:center}
+.m-step__dot{width:18px;height:18px;border-radius:50%;background:var(--surface-3);border:2px solid var(--line);margin:44px auto 22px;position:relative;transition:.5s}
+.m-flow.in .m-step__dot{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 0 6px rgba(248,233,0,.12)}
+.m-step:nth-child(2) .m-step__dot{transition-delay:.25s}
+.m-step:nth-child(3) .m-step__dot{transition-delay:.5s}
+.m-step:nth-child(4) .m-step__dot{transition-delay:.75s}
+.m-step:nth-child(5) .m-step__dot{transition-delay:1s}
+.m-step h4{font-family:var(--font-display);text-transform:uppercase;font-size:.9rem;color:var(--white);margin-bottom:8px}
+.m-step p{font-size:.84rem;color:var(--muted)}
+.m-step .n{font-family:var(--font-display);color:var(--yellow);font-size:.78rem;letter-spacing:.12em}
+
+/* =========================================================
+   DATA-FREE animated dashboard
+   ========================================================= */
+.viz{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:24px;overflow:hidden;position:relative}
+.viz__bar{display:flex;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.viz__scan{position:absolute;top:0;left:0;width:140px;height:100%;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(248,233,0,.06),transparent);animation:scan 4.5s linear infinite}
+@keyframes scan{0%{transform:translateX(-160px)}100%{transform:translateX(100vw)}}
+
+/* KPI tiles — labels + animated equalizer, NO numbers */
+.viz__kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line)}
+.kpi{background:var(--surface);padding:22px 18px}
+.kpi__l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.kpi__l::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--yellow);box-shadow:0 0 8px var(--yellow);animation:pulse 1.8s infinite}
+.kpi.is-green .kpi__l::before{background:var(--green);box-shadow:0 0 8px var(--green)}
+.eq{display:flex;align-items:flex-end;gap:4px;height:42px}
+.eq i{flex:1;background:linear-gradient(180deg,var(--yellow),rgba(248,233,0,.25));border-radius:3px;height:30%;animation:eq 1.4s ease-in-out infinite}
+.kpi.is-green .eq i{background:linear-gradient(180deg,var(--green),rgba(31,185,85,.25))}
+.eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}
+.eq i:nth-child(4){animation-delay:.45s}.eq i:nth-child(5){animation-delay:.6s}.eq i:nth-child(6){animation-delay:.75s}
+@keyframes eq{0%,100%{height:25%}50%{height:90%}}
+
+/* self-drawing trend line (no axes / numbers) */
+.viz__trend{padding:24px 20px;border-top:1px solid var(--line)}
+.viz__trend .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.spark{width:100%;height:90px;display:block}
+.spark path.line{fill:none;stroke:var(--yellow);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 6px rgba(248,233,0,.5))}
+.viz.in .spark path.line{animation:draw 2.4s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.spark path.area{fill:url(#sparkfill);opacity:0;transition:opacity 1s .8s}
+.viz.in .spark path.area{opacity:1}
+.spark circle{opacity:0}
+.viz.in .spark circle{animation:dotpop .4s var(--ease) 2.2s forwards}
+@keyframes dotpop{to{opacity:1}}
+
+/* skeleton ticket rows — anonymized shimmer */
+.viz__rows{padding:18px 20px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line)}
+.skrow{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px}
+.skrow .prio{width:8px;height:8px;border-radius:50%;flex:0 0 8px;background:var(--yellow)}
+.skrow .prio.g{background:var(--green)}
+.sk{height:11px;border-radius:6px;background:linear-gradient(90deg,var(--surface-2) 0%,var(--surface-3) 50%,var(--surface-2) 100%);
+  background-size:200% 100%;animation:shine 1.8s linear infinite}
+.sk.w1{width:42%}.sk.w2{width:26%}.sk.w3{width:18%}
+@keyframes shine{to{background-position:-200% 0}}
+.sktag{margin-left:auto;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;
+  padding:5px 12px;border:1px solid var(--line);border-radius:100px;white-space:nowrap}
+.sktag.ok{color:#6ef0a0;border-color:rgba(31,185,85,.4)}
+
+/* governance — qualitative, data-free */
+.gauge{height:8px;border-radius:6px;background:var(--surface-3);overflow:hidden;margin-top:6px}
+.gauge i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--yellow),#fff7a0);
+  box-shadow:0 0 10px rgba(248,233,0,.5);transition:width 1.5s var(--ease)}
+.gauge.g i{background:linear-gradient(90deg,var(--green),#7ef0a8);box-shadow:0 0 10px rgba(31,185,85,.5)}
+.in .gauge i{width:var(--w,70%)}
+.gov-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:.9rem}
+.gov-row span{color:var(--text)}
+.gov-row .meta{color:var(--faint);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+
+/* floating chips */
+.float{animation:floaty 6s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+@media(max-width:980px){
+  .m-flow__steps{grid-template-columns:repeat(2,1fr)}
+  .m-flow__track{display:none}
+  .m-step__dot{margin-top:0}
+  .viz__kpis{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:680px){
+  .m-flow__steps{grid-template-columns:1fr}
+  .viz__kpis{grid-template-columns:repeat(2,1fr)}
+  .tabs__nav{display:flex;width:100%}
+  .tabs__btn{flex:1;padding:12px 10px;font-size:.85rem}
+}
