@@ -13,6 +13,7 @@
   --surface-3:#222222;
   --yellow:#F8E900;
   --yellow-deep:#D9CC00;
+  --accent-ink:var(--yellow); /* accent used for TEXT; overridden in light theme */
   --white:#FFFFFF;
   --text:#EDEDED;
   --muted:#9A9A9A;

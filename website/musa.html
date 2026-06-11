@@ -20,6 +20,11 @@
   <meta name="twitter:title" content="MUSA — L'AI che evolve il customer care" />
   <meta name="twitter:description" content="L'ecosistema AI di Centax per il customer care. Human + AI." />
   <meta name="twitter:image" content="assets/img/og-musa.png" />
+  <!-- fonts: preconnect for faster, non-blocking load -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- set theme before first paint to avoid flash -->
+  <script>(function(){try{if(localStorage.getItem('musa-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -35,6 +40,31 @@
   <link rel="stylesheet" href="assets/css/musa.css" />
 </head>
 <body data-page="musa" class="musa-body">
+
+  <!-- skip link (a11y) -->
+  <a class="skip-link" href="#top">Vai al contenuto</a>
+
+  <!-- inline icon sprite (bespoke line icons) -->
+  <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-4 4z"/><path d="M8 8.5h8M8 11.5h5"/>
+    </symbol>
+    <symbol id="icon-voice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M9 21h6"/>
+    </symbol>
+    <symbol id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9v6h3l5 4V5L7 9H4z"/><path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7 7 0 0 1 0 10"/>
+    </symbol>
+    <symbol id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9v6h3l5 4V5L7 9H4z"/><path d="M16 10l4 4M20 10l-4 4"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z"/>
+    </symbol>
+  </svg>
 
   <!-- PRELOADER -->
   <div class="preloader" data-preloader>
@@ -62,7 +92,7 @@
     <div class="container">
       <span class="tag tag--live" data-reveal data-en="CX AI Platform · Live">CX AI Platform · Live</span>
       <span class="eyebrow" style="display:block;margin:24px 0 6px" data-reveal data-delay="1" data-en="AI ecosystem for customer care">Ecosistema AI per il customer care</span>
-      <h1 class="m-title" data-reveal data-delay="1" data-parallax="-0.06">MUSA<span class="dot">.</span></h1>
+      <h1 class="m-title" data-reveal data-delay="1">MUSA<span class="dot">.</span></h1>
       <div class="hero__sub" data-reveal data-delay="2">
         <p class="lead" style="font-size:clamp(1.15rem,1.8vw,1.5rem)" data-en-html="More <span class='rotator'><span>speed.</span><span>support.</span><span>value.</span></span> in every relationship.">
           L'AI che evolve il customer care. Più
@@ -157,8 +187,8 @@
           <h2 class="display" style="margin:22px 0" data-en-html="One intelligence.<br>Many channels.">Un'unica intelligenza.<br />Più canali.</h2>
           <p class="lead" data-en="MUSA was born from our thirty years in customer experience: an AI ecosystem to support operators, supervisors, management and assist the end customer. Here's a conversation, handled in real time.">MUSA nasce dalla nostra trentennale esperienza nella customer experience: un ecosistema AI per supportare operatori, supervisori, management e assistere il cliente finale. Ecco una conversazione, gestita in tempo reale.</p>
           <div class="grid grid-2" style="margin-top:32px">
-            <div class="card card--accent spot" data-tilt><div class="card__icon">💬</div><h3 data-en="Chatbot AI">Chatbot AI</h3><p class="mt-s" data-en="Smart text conversations, 24/7 on every digital channel.">Conversazioni intelligenti su testo, 24/7 su tutti i canali digitali.</p></div>
-            <div class="card card--accent spot" data-tilt><div class="card__icon">🎙️</div><h3 data-en="Voicebot AI">Voicebot AI</h3><p class="mt-s" data-en="Natural voice handling: the platform's extension from chat to voice.">Gestione vocale naturale: l'estensione della piattaforma dalla chat alla voce.</p></div>
+            <div class="card card--accent spot" data-tilt><div class="card__icon"><svg class="ico-svg" aria-hidden="true"><use href="#icon-chat"></use></svg></div><h3 data-en="Chatbot AI">Chatbot AI</h3><p class="mt-s" data-en="Smart text conversations, 24/7 on every digital channel.">Conversazioni intelligenti su testo, 24/7 su tutti i canali digitali.</p></div>
+            <div class="card card--accent spot" data-tilt><div class="card__icon"><svg class="ico-svg" aria-hidden="true"><use href="#icon-voice"></use></svg></div><h3 data-en="Voicebot AI">Voicebot AI</h3><p class="mt-s" data-en="Natural voice handling: the platform's extension from chat to voice.">Gestione vocale naturale: l'estensione della piattaforma dalla chat alla voce.</p></div>
           </div>
         </div>
         <div class="split__media" data-reveal data-delay="1">
@@ -166,7 +196,7 @@
             <div class="bot__head">
               <span class="bot__avatar">M</span>
               <div><strong style="display:block;font-size:.95rem">MUSA</strong><span class="chat-meta" data-en="Online · live conversation">Online · conversazione live</span></div>
-              <button class="sound-btn" data-sound type="button" aria-label="Audio chat" title="Audio chat">🔇</button>
+              <button class="sound-btn" data-sound type="button" aria-label="Audio chat" aria-pressed="false" title="Audio chat"><svg class="ico-svg" aria-hidden="true"><use href="#icon-sound-off" data-sound-use></use></svg></button>
               <span class="tag tag--live">Live</span>
             </div>
             <div class="bot__log" data-sim-log></div>
@@ -184,11 +214,11 @@
         <h2 class="display" data-en="How you apply MUSA">Come applichi MUSA</h2>
       </div>
       <div data-tabs data-reveal>
-        <div class="tabs__nav">
-          <button class="tabs__btn active" data-target="tab-ext" data-en="External AI · B2B2C">AI Esterna · B2B2C</button>
-          <button class="tabs__btn" data-target="tab-int" data-en="Internal AI · B2B">AI Interna · B2B</button>
+        <div class="tabs__nav" role="tablist" aria-label="Applicazione di MUSA">
+          <button class="tabs__btn active" id="tabbtn-ext" role="tab" aria-selected="true" aria-controls="tab-ext" data-target="tab-ext" data-en="External AI · B2B2C">AI Esterna · B2B2C</button>
+          <button class="tabs__btn" id="tabbtn-int" role="tab" aria-selected="false" aria-controls="tab-int" tabindex="-1" data-target="tab-int" data-en="Internal AI · B2B">AI Interna · B2B</button>
         </div>
-        <div class="tabs__panel active" id="tab-ext">
+        <div class="tabs__panel active" id="tab-ext" role="tabpanel" aria-labelledby="tabbtn-ext" tabindex="0">
           <div class="split">
             <div>
               <h3 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:16px" data-en="End-customer assistance">Assistenza al cliente finale</h3>
@@ -203,7 +233,7 @@
             </ul>
           </div>
         </div>
-        <div class="tabs__panel" id="tab-int">
+        <div class="tabs__panel" id="tab-int" role="tabpanel" aria-labelledby="tabbtn-int" tabindex="0">
           <div class="split">
             <div>
               <h3 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:16px" data-en="Operations support">Supporto alle operations</h3>
@@ -380,24 +410,24 @@
       </div>
       <div class="faq" data-faq data-reveal>
         <div class="faq__item">
-          <button class="faq__q" type="button"><span data-en="Does MUSA replace operators?">MUSA sostituisce gli operatori?</span><span class="faq__ic"></span></button>
-          <div class="faq__a"><div><p data-en="No: it's an operational copilot. It optimises human work and escalates to a person whenever needed. Control always stays with the team.">No: è un copilota operativo. Ottimizza il lavoro umano e fa escalation a una persona quando serve. Il controllo resta sempre al team.</p></div></div>
+          <button class="faq__q" type="button" id="faqq-1" aria-expanded="false" aria-controls="faqa-1"><span data-en="Does MUSA replace operators?">MUSA sostituisce gli operatori?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-1" role="region" aria-labelledby="faqq-1"><div><p data-en="No: it's an operational copilot. It optimises human work and escalates to a person whenever needed. Control always stays with the team.">No: è un copilota operativo. Ottimizza il lavoro umano e fa escalation a una persona quando serve. Il controllo resta sempre al team.</p></div></div>
         </div>
         <div class="faq__item">
-          <button class="faq__q" type="button"><span data-en="Which channels does it work on?">Su quali canali funziona?</span><span class="faq__ic"></span></button>
-          <div class="faq__a"><div><p data-en="Chat and voice, 24/7, across every digital channel — with a single intelligence behind all interactions.">Chat e voce, 24/7, su tutti i canali digitali, con un'unica intelligenza dietro ogni interazione.</p></div></div>
+          <button class="faq__q" type="button" id="faqq-2" aria-expanded="false" aria-controls="faqa-2"><span data-en="Which channels does it work on?">Su quali canali funziona?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-2" role="region" aria-labelledby="faqq-2"><div><p data-en="Chat and voice, 24/7, across every digital channel — with a single intelligence behind all interactions.">Chat e voce, 24/7, su tutti i canali digitali, con un'unica intelligenza dietro ogni interazione.</p></div></div>
         </div>
         <div class="faq__item">
-          <button class="faq__q" type="button"><span data-en="What happens if MUSA doesn't know the answer?">Cosa succede se MUSA non sa rispondere?</span><span class="faq__ic"></span></button>
-          <div class="faq__a"><div><p data-en="It never improvises: it opens a ticket, the Knowledge Leader updates the KB and MUSA learns for next time.">Non improvvisa mai: apre un ticket, il Knowledge Leader aggiorna la knowledge base e MUSA impara per la volta successiva.</p></div></div>
+          <button class="faq__q" type="button" id="faqq-3" aria-expanded="false" aria-controls="faqa-3"><span data-en="What happens if MUSA doesn't know the answer?">Cosa succede se MUSA non sa rispondere?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-3" role="region" aria-labelledby="faqq-3"><div><p data-en="It never improvises: it opens a ticket, the Knowledge Leader updates the KB and MUSA learns for next time.">Non improvvisa mai: apre un ticket, il Knowledge Leader aggiorna la knowledge base e MUSA impara per la volta successiva.</p></div></div>
         </div>
         <div class="faq__item">
-          <button class="faq__q" type="button"><span data-en="Is our data safe?">I nostri dati sono al sicuro?</span><span class="faq__ic"></span></button>
-          <div class="faq__a"><div><p data-en="Yes: data stays in your protected environment, with governance and tracking tailored to each role.">Sì: i dati restano nel tuo ambiente protetto, con governance e tracciamento dedicati a ogni ruolo.</p></div></div>
+          <button class="faq__q" type="button" id="faqq-4" aria-expanded="false" aria-controls="faqa-4"><span data-en="Is our data safe?">I nostri dati sono al sicuro?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-4" role="region" aria-labelledby="faqq-4"><div><p data-en="Yes: data stays in your protected environment, with governance and tracking tailored to each role.">Sì: i dati restano nel tuo ambiente protetto, con governance e tracciamento dedicati a ogni ruolo.</p></div></div>
         </div>
         <div class="faq__item">
-          <button class="faq__q" type="button"><span data-en="How long does it take to go live?">Quanto tempo serve per partire?</span><span class="faq__ic"></span></button>
-          <div class="faq__a"><div><p data-en="It depends on volumes and existing knowledge. We support you from onboarding all the way to continuous improvement.">Dipende dai volumi e dalla knowledge esistente. Ti accompagniamo dall'onboarding fino al miglioramento continuo.</p></div></div>
+          <button class="faq__q" type="button" id="faqq-5" aria-expanded="false" aria-controls="faqa-5"><span data-en="How long does it take to go live?">Quanto tempo serve per partire?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-5" role="region" aria-labelledby="faqq-5"><div><p data-en="It depends on volumes and existing knowledge. We support you from onboarding all the way to continuous improvement.">Dipende dai volumi e dalla knowledge esistente. Ti accompagniamo dall'onboarding fino al miglioramento continuo.</p></div></div>
         </div>
       </div>
     </div>
