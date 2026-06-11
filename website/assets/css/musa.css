@@ -333,6 +333,27 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 .m-title.pulse{animation:shimmer 6s linear infinite,pop .6s var(--ease)}
 @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.04)}100%{transform:scale(1)}}
 
+/* =========================================================
+   REVIEW FIXES — deck-faithful details
+   ========================================================= */
+/* presentation font: Liberation Sans (Arial-metric compatible) */
+.musa-body{--font-display:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif;
+  --font-body:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif}
+
+/* yellow SQUARE accent instead of a round dot (matches the deck) */
+.dot{display:inline-block;width:.5em;height:.5em;background:var(--yellow);vertical-align:baseline;
+  line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
+.m-title .dot{width:.42em;height:.42em}
+
+/* dynamic rotating word: align to the surrounding text baseline */
+.rotator{vertical-align:baseline}
+
+/* pinned cinematic statement: left aligned (consistent with the copy above) */
+.pin-words{text-align:left}
+
+/* MUSA wordmark inside the chat header (theme-aware) */
+.bot__logo{height:21px;width:auto;color:var(--white);flex:0 0 auto;margin-right:2px}
+
 /* ---- Reduced motion ---- */
 @media(prefers-reduced-motion:reduce){
   .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span,.grain,.fancy-border::before{animation:none!important}

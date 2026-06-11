@@ -7,7 +7,7 @@
     { href: 'perche-cx.html', label: 'Perché CX', key: 'perche-cx' },
     { href: 'valori.html', label: 'Valori', key: 'valori' },
     { href: 'cx-lab.html', label: 'CX Lab', key: 'cx-lab' },
-    { href: 'musa.html', label: 'MUSA', key: 'musa', musa: true },
+    { href: 'musa.html', label: 'MUSA.AI', key: 'musa', musa: true },
     { href: 'news.html', label: 'News', key: 'news' },
     { href: 'lavora-con-noi.html', label: 'Lavora con noi', key: 'lavora' },
   ];
@@ -54,7 +54,7 @@
           <div class="footer__col">
             <h4>Soluzioni</h4>
             <a href="cosa-facciamo.html">Cosa facciamo</a>
-            <a href="musa.html">MUSA — AI Platform</a>
+            <a href="musa.html">MUSA.AI — Customer Care AI</a>
             <a href="cx-lab.html">CX Lab</a>
             <a href="news.html">News</a>
           </div>
