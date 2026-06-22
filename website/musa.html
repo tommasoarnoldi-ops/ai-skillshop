@@ -90,26 +90,17 @@
     <canvas class="particles" data-particles></canvas>
     <div class="aurora"><b></b><b></b><b></b></div>
     <div class="container">
-      <span class="tag tag--live" data-reveal data-en="CX AI Platform · Live">CX AI Platform · Live</span>
-      <span class="eyebrow" style="display:flex;margin:24px 0 6px" data-reveal data-delay="1" data-en="AI ecosystem for customer care">Ecosistema AI per il customer care</span>
+      <span class="eyebrow" style="display:flex;margin:0 0 6px" data-reveal data-delay="1" data-en="AI ecosystem for customer care">Ecosistema AI per il customer care</span>
       <h1 class="m-title" data-reveal data-delay="1">MUSA<span class="dot">.</span></h1>
       <div class="hero__sub" data-reveal data-delay="2">
-        <p class="lead" style="font-size:clamp(1.15rem,1.8vw,1.5rem)" data-en-html="More <span class='rotator'><span>speed.</span><span>support.</span><span>value.</span></span> in every relationship.">
+        <p class="lead" style="font-size:clamp(1.15rem,1.8vw,1.5rem)" data-en-html="More <span class='rotator'><span>speed</span><span>support</span><span>value</span></span> in every relationship.">
           L'AI che evolve il customer care. Più
-          <span class="rotator"><span>velocità.</span><span>supporto.</span><span>valore.</span></span>
+          <span class="rotator"><span>velocità</span><span>supporto</span><span>valore</span></span>
           in ogni relazione.
         </p>
       </div>
       <div class="hero__actions" data-reveal data-delay="3">
         <a class="btn btn--primary" data-magnetic href="contatti.html" data-en="Request a demo">Richiedi una demo</a>
-        <a class="btn btn--ghost" href="#demo" data-en="See it in action">Guardala in azione</a>
-      </div>
-      <div class="hero__channels" data-reveal data-delay="4">
-        <span class="hero__channels-label" data-en="Available on">Disponibile su</span>
-        <span class="chip-mini">Chat</span>
-        <span class="chip-mini" data-en="Voice">Voce</span>
-        <span class="chip-mini">Email</span>
-        <span class="chip-mini" data-en="Digital channels">Canali digitali</span>
       </div>
       <a class="scroll-cue" href="#filosofia" data-reveal data-delay="4" data-en="Scroll to explore"><i></i> Scorri per esplorare</a>
     </div>
@@ -273,38 +264,47 @@
         <h2 class="display" data-en-html="The human who<br>corrects the machine">L'umano che<br />corregge la macchina</h2>
         <p class="lead" data-en="Knowledge Leader Dashboard & Ticketing: every gap becomes a managed, tracked and resolved ticket. Real-time monitoring of coverage, quality and escalation.">Knowledge Leader Dashboard & Ticketing: ogni gap diventa un ticket gestito, tracciato e risolto. Monitoraggio in tempo reale di copertura, qualità ed escalation.</p>
       </div>
-      <div class="viz fancy-border" data-reveal data-tilt>
-        <div class="viz__scan"></div>
-        <div class="viz__bar">
+      <div class="console fancy-border" data-reveal data-tilt>
+        <div class="console__bar">
           <span class="dash__dot"></span><span class="dash__dot"></span><span class="dash__dot"></span>
-          <span style="margin-left:12px;font-size:.85rem;color:var(--muted)">MUSA · Knowledge Leader Dashboard</span>
+          <span class="console__name">MUSA · Knowledge Console</span>
           <span class="tag tag--live" style="margin-left:auto">Live</span>
         </div>
-        <div class="viz__kpis">
-          <div class="kpi"><div class="kpi__l" data-en="KB coverage">Copertura KB</div><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="kpi"><div class="kpi__l" data-en="Avg accuracy">Accuracy media</div><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="kpi is-green"><div class="kpi__l" data-en="Positive utility">Utilità positiva</div><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="kpi"><div class="kpi__l" data-en="Gaps handled">Gap gestiti</div><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-          <div class="kpi"><div class="kpi__l" data-en="Escalation">Escalation</div><div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="console__body">
+          <div class="console__orb">
+            <div class="orb" aria-hidden="true">
+              <span class="orb__scan"></span>
+              <span class="orb__ring"></span><span class="orb__ring"></span><span class="orb__ring"></span>
+              <span class="orb__core"></span>
+            </div>
+            <div class="console__status">
+              <strong data-en="AI active">AI attiva</strong>
+              <span data-en="Listening · real time">In ascolto · tempo reale</span>
+            </div>
+          </div>
+          <div class="console__gauges">
+            <div class="rgauge" style="--off:36">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="KB coverage">Copertura KB</span>
+            </div>
+            <div class="rgauge" style="--off:23">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="Avg accuracy">Accuracy media</span>
+            </div>
+            <div class="rgauge g" style="--off:61">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="Positive utility">Utilità positiva</span>
+            </div>
+          </div>
         </div>
-        <div class="viz__trend">
-          <div class="lbl" data-en="Quality trend · recent cycles">Trend qualità · ultimi cicli</div>
-          <svg class="spark" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="sparkfill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#F8E900" stop-opacity="0.28"/>
-                <stop offset="100%" stop-color="#F8E900" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path class="area" d="M0,72 L60,60 L120,66 L180,44 L240,50 L300,34 L360,40 L420,24 L480,30 L540,14 L600,20 L600,90 L0,90 Z"/>
-            <path class="line" d="M0,72 L60,60 L120,66 L180,44 L240,50 L300,34 L360,40 L420,24 L480,30 L540,14 L600,20"/>
-            <circle cx="600" cy="20" r="5" fill="#F8E900"/>
-          </svg>
-        </div>
-        <div class="viz__rows">
-          <div class="skrow"><span class="prio"></span><span class="sk w1"></span><span class="sk w2"></span><span class="sktag" data-en="↑ Escalation">↑ Escalation</span></div>
-          <div class="skrow"><span class="prio"></span><span class="sk w1"></span><span class="sk w3"></span><span class="sktag" data-en="Uncovered KB">KB scoperta</span></div>
-          <div class="skrow"><span class="prio g"></span><span class="sk w1"></span><span class="sk w2"></span><span class="sktag ok" data-en="✓ Handled">✓ Gestito</span></div>
+        <div class="console__loop">
+          <div class="loop__line"><i></i></div>
+          <div class="loop__steps">
+            <span class="loop__step"><b></b><span data-en="Gap detected">Gap rilevato</span></span>
+            <span class="loop__step"><b></b><span data-en="Ticket opened">Ticket aperto</span></span>
+            <span class="loop__step"><b></b><span data-en="KB updated">KB aggiornata</span></span>
+            <span class="loop__step"><b></b><span data-en="Resolved">Risolto</span></span>
+          </div>
         </div>
       </div>
       <p class="text-muted" style="text-align:center;font-size:.82rem;margin-top:18px" data-en="Demonstrative interface preview · real data stays in your protected environment">Anteprima dimostrativa dell'interfaccia · i dati reali restano nel tuo ambiente protetto</p>

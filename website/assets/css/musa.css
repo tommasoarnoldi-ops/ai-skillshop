@@ -340,10 +340,10 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 .musa-body{--font-display:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif;
   --font-body:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif}
 
-/* yellow SQUARE accent instead of a round dot (matches the deck) */
-.dot{display:inline-block;width:.5em;height:.5em;background:var(--yellow);vertical-align:baseline;
-  line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
-.m-title .dot{width:.42em;height:.42em}
+/* yellow SQUARE accent — smaller and slightly detached from the word */
+.dot{display:inline-block;width:.32em;height:.32em;background:var(--yellow);vertical-align:baseline;
+  margin-left:.14em;line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
+.m-title .dot{width:.26em;height:.26em;margin-left:.1em}
 
 /* dynamic rotating word: align to the surrounding text baseline */
 .rotator{vertical-align:baseline}
@@ -354,15 +354,62 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 /* MUSA wordmark inside the chat header (theme-aware) */
 .bot__logo{height:21px;width:auto;color:var(--white);flex:0 0 auto;margin-right:2px}
 
+/* ---- Reinvented data-free "Knowledge Console" ---- */
+.console{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);
+  border-radius:24px;overflow:hidden;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.console__bar{display:flex;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.console__name{margin-left:12px;font-size:.85rem;color:var(--muted)}
+.console__body{display:grid;grid-template-columns:.9fr 1.5fr;gap:8px;align-items:center}
+.console__orb{display:flex;flex-direction:column;align-items:center;gap:16px;justify-content:center;
+  padding:32px 20px;border-right:1px solid var(--line)}
+.orb{position:relative;width:150px;height:150px;display:grid;place-items:center}
+.orb__core{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7a0,var(--yellow));
+  box-shadow:0 0 28px rgba(248,233,0,.65);animation:orbpulse 2.4s ease-in-out infinite}
+@keyframes orbpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.orb__ring{position:absolute;width:46px;height:46px;border:1px solid rgba(248,233,0,.45);border-radius:50%;animation:orbripple 3s ease-out infinite}
+.orb__ring:nth-child(3){animation-delay:1s}.orb__ring:nth-child(4){animation-delay:2s}
+@keyframes orbripple{0%{width:46px;height:46px;opacity:.7}100%{width:150px;height:150px;opacity:0}}
+.orb__scan{position:absolute;width:150px;height:150px;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,rgba(248,233,0,.35),transparent 35%);animation:spin 4s linear infinite;
+  -webkit-mask:radial-gradient(circle,transparent 56px,#000 57px);mask:radial-gradient(circle,transparent 56px,#000 57px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.console__status{text-align:center}
+.console__status strong{display:block;font-family:var(--font-display);text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;color:var(--white)}
+.console__status span{font-size:.78rem;color:var(--muted)}
+.console__gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:30px 26px}
+.rgauge{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.rgauge svg{width:92px;height:92px;transform:rotate(-90deg)}
+.rg-track{fill:none;stroke:var(--surface-3);stroke-width:7}
+.rg-arc{fill:none;stroke:var(--yellow);stroke-width:7;stroke-linecap:round;stroke-dasharray:226;stroke-dashoffset:226;
+  filter:drop-shadow(0 0 5px rgba(248,233,0,.45));transition:stroke-dashoffset 1.6s var(--ease)}
+.rgauge.g .rg-arc{stroke:var(--green);filter:drop-shadow(0 0 5px rgba(31,185,85,.45))}
+.console.in .rg-arc{stroke-dashoffset:var(--off,60)}
+.rg-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.console__loop{padding:26px 26px 30px;border-top:1px solid var(--line);position:relative}
+.loop__line{position:absolute;left:14%;right:14%;top:39px;height:2px;background:var(--line);overflow:hidden;border-radius:2px}
+.loop__line i{position:absolute;top:0;left:-30%;width:30%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--yellow),transparent);box-shadow:0 0 12px var(--yellow);animation:loopmove 3.2s linear infinite}
+@keyframes loopmove{to{left:100%}}
+.loop__steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative}
+.loop__step{display:flex;flex-direction:column;align-items:center;gap:12px;font-size:.78rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.05em}
+.loop__step b{width:14px;height:14px;border-radius:50%;background:var(--surface-3);border:2px solid var(--line);animation:loopdot 3.2s ease-in-out infinite}
+.loop__step:nth-child(2) b{animation-delay:.8s}.loop__step:nth-child(3) b{animation-delay:1.6s}.loop__step:nth-child(4) b{animation-delay:2.4s}
+@keyframes loopdot{0%,75%,100%{background:var(--surface-3);border-color:var(--line);box-shadow:none}
+  18%,42%{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 0 5px rgba(248,233,0,.14)}}
+
 /* ---- Reduced motion ---- */
 @media(prefers-reduced-motion:reduce){
   .m-title,.viz__scan,.eq i,.sk,.aurora b,.rotator span,.grain,.fancy-border::before{animation:none!important}
   .m-title{-webkit-text-fill-color:var(--white);color:var(--white)}
   .grain{display:none}
   .kin-inner{transform:none!important;transition:none!important}
+  .orb__core,.orb__ring,.orb__scan,.loop__line i,.loop__step b{animation:none!important}
+  .rg-arc{transition:none!important}
 }
 
 @media(max-width:980px){
+  .console__body{grid-template-columns:1fr}
+  .console__orb{border-right:none;border-bottom:1px solid var(--line)}
   .m-flow__steps{grid-template-columns:repeat(2,1fr)}
   .m-flow__track{display:none}
   .m-step__dot{margin-top:0}
@@ -377,4 +424,8 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
   .viz__kpis{grid-template-columns:repeat(2,1fr)}
   .tabs__nav{display:flex;width:100%}
   .tabs__btn{flex:1;padding:12px 10px;font-size:.85rem}
+  .console__gauges{gap:8px;padding:22px 14px}
+  .rgauge svg{width:78px;height:78px}
+  .loop__line{display:none}
+  .loop__steps{grid-template-columns:repeat(2,1fr);gap:20px}
 }

@@ -258,16 +258,18 @@
      =================================================== */
   const SIM = {
     it: [
-      { who: 'user', text: 'Buongiorno, vorrei attivare il mio servizio.' },
-      { who: 'ai', text: 'Certo! Posso guidarti subito, sono disponibile 24/7 su chat e voce. ✦' },
-      { who: 'user', text: 'E se ho bisogno di un operatore umano?' },
-      { who: 'ai', text: 'Nessun problema: faccio escalation immediata al team. Il controllo resta sempre alle persone.' },
+      { who: 'ai', text: 'Buongiorno sono MUSA, come posso aiutarti?' },
+      { who: 'user', text: 'Buongiorno, avrei bisogno di assistenza' },
+      { who: 'ai', text: 'Certo, dimmi pure. Sono disponibile a fornirti assistenza 24/7' },
+      { who: 'user', text: 'E se ho bisogno di un operatore?' },
+      { who: 'ai', text: 'Se non dovessi essere in grado di risponderti ti metterò in contatto con il primo operatore disponibile' },
     ],
     en: [
-      { who: 'user', text: 'Hi, I would like to activate my service.' },
-      { who: 'ai', text: 'Of course! I can guide you right away — available 24/7 on chat and voice. ✦' },
-      { who: 'user', text: 'And if I need a human operator?' },
-      { who: 'ai', text: 'No problem: I escalate immediately to the team. Control always stays with people.' },
+      { who: 'ai', text: "Good morning, I'm MUSA. How can I help you?" },
+      { who: 'user', text: 'Good morning, I need some assistance' },
+      { who: 'ai', text: "Of course, go ahead. I'm available to assist you 24/7" },
+      { who: 'user', text: 'And if I need an operator?' },
+      { who: 'ai', text: "If I'm not able to answer you, I'll connect you with the first available operator" },
     ],
   };
   let audioCtx = null, soundOn = false;
@@ -291,15 +293,6 @@
     setUse(soundBtn, soundOn ? '#icon-sound-on' : '#icon-sound-off');
     if (soundOn) blip('ai');
   });
-  const greeting = () => {
-    const h = new Date().getHours();
-    if ((window.__musaLang || 'it') === 'en') {
-      const g = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
-      return g + "! I'm MUSA, how can I help you? ✦";
-    }
-    const g = h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
-    return g + '! Sono MUSA, come posso aiutarti? ✦';
-  };
   const sim = $('[data-sim-chat]');
   let simLog, simTimers = [];
   const clearSim = () => { simTimers.forEach(clearTimeout); simTimers = []; };
@@ -311,7 +304,7 @@
   const playSim = () => {
     if (!simLog) return;
     clearSim(); simLog.innerHTML = '';
-    const script = [{ who: 'ai', text: greeting() }].concat(SIM[window.__musaLang || 'it']);
+    const script = SIM[window.__musaLang || 'it'];
     if (reduce) { script.forEach(addBubble); simLog.querySelectorAll('.bmsg').forEach((b) => { b.style.opacity = 1; b.style.transform = 'none'; b.style.animation = 'none'; }); return; }
     let t = 500;
     script.forEach((m) => {
