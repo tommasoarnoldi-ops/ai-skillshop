@@ -3,177 +3,424 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Centax — Customer Experience evoluta dall'AI</title>
-  <meta name="description" content="Centax: trentennale esperienza nella Customer Experience. Persone, tecnologia e AI con MUSA per relazioni che generano valore." />
+  <title>MUSA — L'AI che evolve il customer care | Centax</title>
+  <meta name="description" content="MUSA è l'ecosistema AI di Centax per il customer care: chatbot e voicebot che assistono il cliente finale e affiancano gli operatori. Human + AI." />
   <link rel="icon" href="assets/img/logo.svg" />
+  <meta name="theme-color" content="#0B0B0B" />
+  <link rel="canonical" href="https://www.cxcentax.com/musa" />
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Centax" />
+  <meta property="og:title" content="MUSA — L'AI che evolve il customer care" />
+  <meta property="og:description" content="L'ecosistema AI di Centax per il customer care. Più velocità, più supporto, più valore in ogni relazione." />
+  <meta property="og:image" content="assets/img/og-musa.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MUSA — L'AI che evolve il customer care" />
+  <meta name="twitter:description" content="L'ecosistema AI di Centax per il customer care. Human + AI." />
+  <meta name="twitter:image" content="assets/img/og-musa.png" />
+  <!-- fonts: preconnect for faster, non-blocking load -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- set theme before first paint to avoid flash -->
+  <script>(function(){try{if(localStorage.getItem('musa-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"MUSA",
+    "applicationCategory":"BusinessApplication",
+    "description":"Ecosistema AI per il customer care: chatbot e voicebot che assistono il cliente finale e affiancano gli operatori.",
+    "brand":{"@type":"Brand","name":"Centax"},
+    "url":"https://www.cxcentax.com/musa"
+  }
+  </script>
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/musa.css" />
 </head>
-<body data-page="home">
-  <div id="site-header"></div>
+<body data-page="musa" class="musa-body">
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero__grid-glow"></div>
-    <div class="container">
-      <span class="eyebrow" data-reveal>Customer Experience · Human + AI</span>
-      <h1 class="display" data-reveal data-delay="1">
-        Relazioni<br />che fanno<br />la differenza<span class="sq"></span>
-      </h1>
-      <div class="hero__sub" data-reveal data-delay="2">
-        <p class="lead">Da oltre trent'anni progettiamo customer experience che uniscono il valore delle persone alla potenza dell'AI. Più velocità, più supporto, più valore in ogni interazione.</p>
-      </div>
-      <div class="hero__actions" data-reveal data-delay="3">
-        <a class="btn btn--primary" href="musa.html">Scopri MUSA <span class="ico">→</span></a>
-        <a class="btn btn--ghost" href="cosa-facciamo.html">Cosa facciamo</a>
-      </div>
-    </div>
-  </header>
+  <!-- skip link (a11y) -->
+  <a class="skip-link" href="#top">Vai al contenuto</a>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span>Customer Care</span><span>Voicebot AI</span><span>Knowledge Engineering</span><span>Omnichannel</span><span>Chatbot AI</span><span>Operations</span>
-      <span>Customer Care</span><span>Voicebot AI</span><span>Knowledge Engineering</span><span>Omnichannel</span><span>Chatbot AI</span><span>Operations</span>
+  <!-- inline icon sprite (bespoke line icons) -->
+  <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-4 4z"/><path d="M8 8.5h8M8 11.5h5"/>
+    </symbol>
+    <symbol id="icon-voice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M9 21h6"/>
+    </symbol>
+    <symbol id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9v6h3l5 4V5L7 9H4z"/><path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7 7 0 0 1 0 10"/>
+    </symbol>
+    <symbol id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9v6h3l5 4V5L7 9H4z"/><path d="M16 10l4 4M20 10l-4 4"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z"/>
+    </symbol>
+  </svg>
+
+  <!-- PRELOADER -->
+  <div class="preloader" data-preloader>
+    <div class="preloader__inner">
+      <div class="preloader__word">MUSA<span class="dot">.</span></div>
+      <div class="preloader__track"><i></i></div>
+      <div class="preloader__pct" data-pre-pct>0%</div>
     </div>
   </div>
 
-  <!-- STATS -->
-  <section class="section section--tight">
-    <div class="container">
-      <div class="stats">
-        <div data-reveal>
-          <div class="stat__num num-ticker"><span data-count="30" data-suffix="+">0</span></div>
-          <div class="stat__label">Anni di esperienza CX</div>
-        </div>
-        <div data-reveal data-delay="1">
-          <div class="stat__num num-ticker"><span data-count="84.2" data-suffix="%">0</span></div>
-          <div class="stat__label">Copertura knowledge base</div>
-        </div>
-        <div data-reveal data-delay="2">
-          <div class="stat__num num-ticker"><span data-count="24" data-suffix="/7">0</span></div>
-          <div class="stat__label">Assistenza con MUSA</div>
-        </div>
-        <div data-reveal data-delay="3">
-          <div class="stat__num num-ticker"><span data-count="1.3" data-suffix="%">0</span></div>
-          <div class="stat__label">Tasso di escalation</div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- SCROLL PROGRESS -->
+  <div class="scrollbar"></div>
 
-  <!-- COSA FACCIAMO -->
-  <section class="section">
-    <div class="container">
-      <div class="sec-head" data-reveal>
-        <span class="eyebrow">Cosa facciamo</span>
-        <h2 class="display">Un ecosistema completo<br />per la customer experience</h2>
-        <p class="lead">Gestiamo persone, processi e tecnologia per offrire un servizio scalabile, coerente e misurabile su ogni canale.</p>
-      </div>
-      <div class="bento">
-        <article class="card span-3 card--glow" data-reveal data-tilt>
-          <div class="card__icon">◎</div>
-          <div class="card__num">01</div>
-          <h3>Contact Center evoluto</h3>
-          <p>Gestione omnicanale di voce, chat, email e canali digitali con operatori formati e supportati dall'AI in tempo reale.</p>
-        </article>
-        <article class="card span-3 card--glow" data-reveal data-delay="1" data-tilt>
-          <div class="card__icon">✦</div>
-          <div class="card__num">02</div>
-          <h3>MUSA — AI Platform</h3>
-          <p>Chatbot e voicebot intelligenti che assistono il cliente finale e affiancano gli operatori, riducendo tempi e costi.</p>
-        </article>
-        <article class="card span-2 card--glow" data-reveal data-tilt>
-          <div class="card__icon">⬡</div>
-          <div class="card__num">03</div>
-          <h3>Knowledge Engineering</h3>
-          <p>Costruiamo e governiamo basi di conoscenza validate, versionate e sempre aggiornate.</p>
-        </article>
-        <article class="card span-2 card--glow" data-reveal data-delay="1" data-tilt>
-          <div class="card__icon">◈</div>
-          <div class="card__num">04</div>
-          <h3>CX Lab</h3>
-          <p>Ricerca, sperimentazione e innovazione continua sui modelli di servizio del futuro.</p>
-        </article>
-        <article class="card span-2 card--glow" data-reveal data-delay="2" data-tilt>
-          <div class="card__icon">▤</div>
-          <div class="card__num">05</div>
-          <h3>Analytics & Governance</h3>
-          <p>Dashboard dedicate per ogni ruolo: qualità, performance e impatto business in tempo reale.</p>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- film grain texture -->
+  <div class="grain" aria-hidden="true"></div>
 
-  <!-- MUSA HIGHLIGHT -->
-  <section class="section">
+  <!-- (language switch is injected into the navbar by musa.js) -->
+
+  <div id="site-header"></div>
+
+  <!-- HERO -->
+  <header class="m-hero" id="top">
+    <canvas class="particles" data-particles></canvas>
+    <div class="aurora"><b></b><b></b><b></b></div>
+    <div class="container">
+      <span class="eyebrow" style="display:flex;margin:0 0 6px" data-reveal data-delay="1" data-en="AI ecosystem for customer care">Ecosistema AI per il customer care</span>
+      <h1 class="m-title" data-reveal data-delay="1">MUSA<span class="dot">.</span></h1>
+      <div class="hero__sub" data-reveal data-delay="2">
+        <p class="lead" style="font-size:clamp(1.15rem,1.8vw,1.5rem)" data-en-html="More <span class='rotator'><span>speed</span><span>support</span><span>value</span></span> in every relationship.">
+          L'AI che evolve il customer care. Più
+          <span class="rotator"><span>velocità</span><span>supporto</span><span>valore</span></span>
+          in ogni relazione.
+        </p>
+      </div>
+      <div class="hero__actions" data-reveal data-delay="3">
+        <a class="btn btn--primary" data-magnetic href="https://www.cxcentax.com/contatti/" data-en="Request a demo">Richiedi una demo</a>
+      </div>
+      <a class="scroll-cue" href="#filosofia" data-reveal data-delay="4" data-en="Scroll to explore"><i></i> Scorri per esplorare</a>
+    </div>
+  </header>
+
+  <!-- FILOSOFIA -->
+  <section class="section" id="filosofia" style="border-top:1px solid var(--line)">
     <div class="container">
       <div class="split">
         <div data-reveal>
-          <span class="eyebrow">Novità · CX AI Platform</span>
-          <h2 class="display" style="margin:20px 0">MUSA<span class="dot">.</span></h2>
-          <p class="lead">L'AI che evolve il customer care. Un'unica intelligenza, più canali di interazione: MUSA assiste il cliente finale e affianca gli operatori, mantenendo sempre il controllo nelle mani del team.</p>
-          <ul class="check mt-m">
-            <li>Customer care automatizzato disponibile H24/7</li>
-            <li>Supporto real-time all'operatore durante la conversazione</li>
-            <li>Knowledge base sempre aggiornata e versionata</li>
-          </ul>
-          <a class="btn btn--primary mt-m" href="musa.html">Esplora la piattaforma <span class="ico">→</span></a>
+          <span class="eyebrow" data-en="02 · Philosophy · Human + AI">02 · La filosofia · Human + AI</span>
+          <h2 class="display" style="margin:22px 0" data-en-html="Technology<br><span class='hl'>amplifies.</span><br>People make<br>the <span class='hl'>difference.</span>">La tecnologia<br /><span class="hl">amplifica.</span><br />Le persone fanno<br />la <span class="hl">differenza.</span></h2>
         </div>
-        <div class="split__media" data-reveal data-delay="1">
-          <div class="chat-mock">
-            <span class="chat-meta">MUSA · Live chat</span>
-            <div class="chat-bubble chat-bubble--user">Come attivo il dispositivo Nexi Pay senza smartphone?</div>
-            <div class="chat-bubble chat-bubble--ai">Certo! Puoi completare l'attivazione direttamente dal portale web o in filiale. Ti guido passo passo nella procedura alternativa. ✦</div>
-            <div class="chat-bubble chat-bubble--user">Perfetto, procediamo dal web.</div>
-            <div class="chat-bubble chat-bubble--ai"><span class="typing"><span></span><span></span><span></span></span></div>
+        <div data-reveal data-delay="1">
+          <p class="lead" style="margin-bottom:28px" data-en="MUSA is an operational copilot: it optimises human work without ever replacing it. Control always stays in the team's hands.">MUSA è un copilota operativo: ottimizza il lavoro umano senza mai sostituirlo. Il controllo resta sempre nelle mani del team.</p>
+          <div class="pills">
+            <span class="pill pill--accent" data-en="AI as operational copilot">AI come copilota operativo</span>
+            <span class="pill" data-en="People at the centre">Centralità della persona</span>
+            <span class="pill" data-en="Real-time decision support">Supporto decisionale in tempo reale</span>
+            <span class="pill" data-en="Human work optimisation">Ottimizzazione del lavoro umano</span>
+            <span class="pill" data-en="Control always in the team">Controllo sempre nel team</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PERCHE CX -->
-  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-    <div class="container">
-      <div class="sec-head center" data-reveal>
-        <span class="eyebrow eyebrow--center">Perché scegliere Centax</span>
-        <h2 class="display">La tecnologia amplifica.<br /><span class="hl">Le persone fanno la differenza.</span></h2>
-      </div>
-      <div class="grid grid-3">
-        <div class="card center" data-reveal data-tilt><h3>Esperienza</h3><p>Trent'anni sul campo nella customer experience di settori complessi e regolamentati.</p></div>
-        <div class="card center" data-reveal data-delay="1" data-tilt><h3>AI proprietaria</h3><p>MUSA è costruita sul nostro know-how: un copilota operativo, non una scatola nera.</p></div>
-        <div class="card center" data-reveal data-delay="2" data-tilt><h3>Governance</h3><p>Ogni ruolo vede i dati che gli servono. Sempre. Qualità e controllo misurabili.</p></div>
+  <!-- PINNED CINEMATIC STATEMENT -->
+  <section class="pin-stage" data-pin-stage>
+    <div class="pin-sticky">
+      <div class="container">
+        <span class="eyebrow" data-en="Human + AI">Human + AI</span>
+        <h2 class="pin-words">
+          <span data-pin-word data-en="One intelligence.">Un'unica intelligenza.</span>
+          <span data-pin-word data-en="Multiple channels.">Più canali.</span>
+          <span data-pin-word data-en="Infinite relationships.">Infinite relazioni.</span>
+        </h2>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIAL -->
-  <section class="section">
+  <!-- CONTESTO -->
+  <section class="section" id="contesto" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="container">
-      <div class="card card--accent center" style="padding:64px" data-reveal>
-        <span class="eyebrow eyebrow--center">Case study · Settore bancario</span>
-        <h3 style="font-size:clamp(1.6rem,3vw,2.4rem);max-width:22ch;margin:24px auto;line-height:1.25">"Con MUSA abbiamo unificato la knowledge di due banche e reso operative nuove risorse in tempi record."</h3>
-        <div class="stats" style="margin-top:48px">
-          <div><div class="stat__num"><span class="unit">−</span><span data-count="35" data-suffix="%">0</span></div><div class="stat__label">Time-to-productivity</div></div>
-          <div><div class="stat__num"><span class="unit">−</span><span data-count="38" data-suffix="%">0</span></div><div class="stat__label">Tempo ricerca info</div></div>
-          <div><div class="stat__num"><span data-count="95" data-suffix="%">0</span></div><div class="stat__label">Accuracy AI validata</div></div>
-          <div><div class="stat__num"><span data-count="91" data-suffix="%">0</span></div><div class="stat__label">Tasso di utilizzo</div></div>
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="03 · The context">03 · Il contesto</span>
+        <h2 class="display" data-en-html="Customer experience<br>is changing">La customer experience<br />sta cambiando</h2>
+        <p class="lead" data-en="Companies must handle ever-growing volumes, expectations and complexity while keeping quality, control and efficiency.">Le aziende devono gestire volumi, aspettative e complessità sempre maggiori, mantenendo qualità, controllo ed efficienza.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="card spot" data-reveal><h3 style="font-size:1.25rem" data-en="High response times">Tempi di risposta elevati</h3><p class="mt-s" data-en="Customers wait while operators handle growing volumes.">Il cliente attende mentre gli operatori gestiscono volumi crescenti.</p></div>
+        <div class="card spot" data-reveal data-delay="1"><h3 style="font-size:1.25rem" data-en="Rising costs">Costi crescenti</h3><p class="mt-s" data-en="Scaling service often means more people, time and complexity.">Scalare il servizio significa spesso aumentare persone, tempi e complessità.</p></div>
+        <div class="card spot" data-reveal data-delay="2"><h3 style="font-size:1.25rem" data-en="Knowledge dispersion">Dispersione della knowledge</h3><p class="mt-s" data-en="Fragmented information generates inconsistent answers.">Informazioni frammentate generano risposte incoerenti.</p></div>
+        <div class="card spot" data-reveal><h3 style="font-size:1.25rem" data-en="Operational overload">Overload operativo</h3><p class="mt-s" data-en="Repetitive requests absorb time and high-value capacity.">Le richieste ripetitive assorbono tempo e capacità ad alto valore.</p></div>
+        <div class="card spot" data-reveal data-delay="1"><h3 style="font-size:1.25rem" data-en="Monitoring difficulty">Difficoltà di monitoraggio</h3><p class="mt-s" data-en="No complete view on quality, performance and usage.">Manca una visione completa su qualità, performance e utilizzo.</p></div>
+        <div class="card spot" data-reveal data-delay="2"><h3 style="font-size:1.25rem" data-en="Omnichannel complexity">Complessità omnicanale</h3><p class="mt-s" data-en="Continuity expected across voice, chat, email and digital.">Continuità attesa tra voce, chat, email e canali digitali.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODOTTO + INTERACTIVE DEMO -->
+  <section class="section" id="demo">
+    <div class="container">
+      <div class="split">
+        <div data-reveal>
+          <span class="eyebrow" data-en="04 · The product · Live">04 · Il prodotto · Dal vivo</span>
+          <h2 class="display" style="margin:22px 0" data-en-html="One intelligence.<br>Many channels.">Un'unica intelligenza.<br />Più canali.</h2>
+          <p class="lead" data-en="MUSA was born from our thirty years in customer experience: an AI ecosystem to support operators, supervisors, management and assist the end customer. Here's a conversation, handled in real time.">MUSA nasce dalla nostra trentennale esperienza nella customer experience: un ecosistema AI per supportare operatori, supervisori, management e assistere il cliente finale. Ecco una conversazione, gestita in tempo reale.</p>
+          <div class="grid grid-2" style="margin-top:32px">
+            <div class="card card--accent spot" data-tilt><div class="card__icon"><svg class="ico-svg" aria-hidden="true"><use href="#icon-chat"></use></svg></div><h3 data-en="Chatbot AI">Chatbot AI</h3><p class="mt-s" data-en="Smart text conversations, 24/7 on every digital channel.">Conversazioni intelligenti su testo, 24/7 su tutti i canali digitali.</p></div>
+            <div class="card card--accent spot" data-tilt><div class="card__icon"><svg class="ico-svg" aria-hidden="true"><use href="#icon-voice"></use></svg></div><h3 data-en="Voicebot AI">Voicebot AI</h3><p class="mt-s" data-en="Natural voice handling: the platform's extension from chat to voice.">Gestione vocale naturale: l'estensione della piattaforma dalla chat alla voce.</p></div>
+          </div>
+        </div>
+        <div class="split__media" data-reveal data-delay="1">
+          <div class="bot fancy-border" data-sim-chat data-tilt>
+            <div class="bot__head">
+              <svg class="bot__logo" viewBox="0 0 118 30" role="img" aria-label="MUSA"><text x="0" y="24" font-weight="700" font-size="27" letter-spacing="-1" fill="currentColor">MUSA</text><rect x="99" y="16.5" width="9" height="9" fill="#F8E900"/></svg>
+              <span class="chat-meta" data-en="Online · live conversation">Online · conversazione live</span>
+              <button class="sound-btn" data-sound type="button" aria-label="Audio chat" aria-pressed="false" title="Audio chat"><svg class="ico-svg" aria-hidden="true"><use href="#icon-sound-off" data-sound-use></use></svg></button>
+              <span class="tag tag--live">Live</span>
+            </div>
+            <div class="bot__log" data-sim-log></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- NEWS TEASER -->
-  <section class="section section--tight">
+  <!-- APPLICAZIONE — TABS -->
+  <section class="section" id="applicazione" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
     <div class="container">
-      <div class="flex jcsb aic wrap" style="margin-bottom:40px" data-reveal>
-        <div><span class="eyebrow">Dal nostro mondo</span><h2 class="display" style="margin-top:18px;font-size:clamp(2rem,4vw,3rem)">News & insight</h2></div>
-        <a class="btn btn--ghost" href="news.html">Tutte le news <span class="ico">→</span></a>
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="05 · Application">05 · Applicazione</span>
+        <h2 class="display" data-en="How you apply MUSA">Come applichi MUSA</h2>
       </div>
-      <div class="grid grid-3">
-        <a class="card" href="news.html" data-reveal data-tilt><span class="tag">Eventi</span><h3 style="margin-top:18px;font-size:1.3rem">Centax promuove il concorso "La miglior giocata"</h3><p class="mt-s">Un'iniziativa che mette al centro persone, passione e community.</p></a>
-        <a class="card" href="musa.html" data-reveal data-delay="1" data-tilt><span class="tag">Prodotto</span><h3 style="margin-top:18px;font-size:1.3rem">MUSA: l'AI che evolve il customer care</h3><p class="mt-s">Come uniamo persone e intelligenza artificiale in un unico ecosistema.</p></a>
-        <a class="card" href="cx-lab.html" data-reveal data-delay="2" data-tilt><span class="tag">CX Lab</span><h3 style="margin-top:18px;font-size:1.3rem">Knowledge engineering: l'errore che diventa apprendimento</h3><p class="mt-s">Il loop di miglioramento continuo dietro le risposte di MUSA.</p></a>
+      <div data-tabs data-reveal>
+        <div class="tabs__nav" role="tablist" aria-label="Applicazione di MUSA">
+          <button class="tabs__btn active" id="tabbtn-ext" role="tab" aria-selected="true" aria-controls="tab-ext" data-target="tab-ext" data-en="External AI · B2B2C">AI Esterna · B2B2C</button>
+          <button class="tabs__btn" id="tabbtn-int" role="tab" aria-selected="false" aria-controls="tab-int" tabindex="-1" data-target="tab-int" data-en="Internal AI · B2B">AI Interna · B2B</button>
+        </div>
+        <div class="tabs__panel active" id="tab-ext" role="tabpanel" aria-labelledby="tabbtn-ext" tabindex="0">
+          <div class="split">
+            <div>
+              <h3 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:16px" data-en="End-customer assistance">Assistenza al cliente finale</h3>
+              <p class="lead" data-en="MUSA interacts directly with end customers, handling recurring requests, advanced FAQs and pre/post-sales support, freeing operators for higher-value interactions.">MUSA interagisce direttamente con i clienti finali, gestendo richieste ricorrenti, FAQ evolute e supporto pre/post vendita, liberando gli operatori per le interazioni a maggior valore.</p>
+            </div>
+            <ul class="check">
+              <li data-en="Automated customer care available 24/7">Customer care automatizzato H24/7</li>
+              <li data-en="Handling of FAQs, statuses and service information">Gestione di FAQ, stati e informazioni di servizio</li>
+              <li data-en="Pre and post-sales support on text and voice">Supporto pre e post vendita su testo e voce</li>
+              <li data-en="Automatic escalation to the operator when needed">Escalation automatica all'operatore quando necessario</li>
+              <li data-en="Experience consistent with the brand">Esperienza coerente con il brand</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tabs__panel" id="tab-int" role="tabpanel" aria-labelledby="tabbtn-int" tabindex="0">
+          <div class="split">
+            <div>
+              <h3 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:16px" data-en="Operations support">Supporto alle operations</h3>
+              <p class="lead" data-en="MUSA assists operators in real time during every conversation. It retrieves information from the knowledge base, suggests answers and ensures service consistency.">MUSA affianca l'operatore in tempo reale durante ogni conversazione. Recupera informazioni dalla knowledge base, suggerisce risposte e garantisce uniformità di servizio.</p>
+            </div>
+            <ul class="check">
+              <li data-en="Real-time support during the call">Supporto real-time durante la chiamata</li>
+              <li data-en="Immediate consultation of the knowledge base">Consultazione immediata della knowledge base</li>
+              <li data-en="Reduced search and response times">Riduzione dei tempi di ricerca e risposta</li>
+              <li data-en="Accelerated onboarding for new operators">Onboarding accelerato per i nuovi operatori</li>
+              <li data-en="Greater consistency and quality in answers">Maggiore uniformità e qualità nelle risposte</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section class="section" id="flow">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="06 · Flow">06 · Flow</span>
+        <h2 class="display" style="font-size:clamp(1.9rem,4.4vw,3.6rem)" data-en-html="When MUSA doesn't know,<br>it learns<span class='dot'>.</span>">Quando MUSA non sa,<br />impara<span class="dot">.</span></h2>
+        <p class="lead" data-en="When the KB isn't covered or confidence is low, the learning loop kicks in. The system never improvises.">Quando la KB non è coperta o la confidence è bassa, si attiva il loop di apprendimento. Il sistema non improvvisa mai.</p>
+      </div>
+      <div class="m-flow" data-reveal>
+        <div class="m-flow__track"><i></i></div>
+        <div class="m-flow__steps">
+          <div class="m-step"><div class="m-step__dot"></div><div class="n">01</div><h4 data-en="MUSA doesn't know">MUSA non sa</h4><p data-en="The system spots the gap and never improvises.">Il sistema riconosce il gap e non improvvisa mai.</p></div>
+          <div class="m-step"><div class="m-step__dot"></div><div class="n">02</div><h4 data-en="Automatic ticket">Ticket automatico</h4><p data-en="Opens a ticket classified by priority, topic and type.">Apre un ticket classificato per priorità, topic e tipo.</p></div>
+          <div class="m-step"><div class="m-step__dot"></div><div class="n">03</div><h4 data-en="Knowledge Leader">Knowledge Leader</h4><p data-en="Analyses, involves the owner and produces the correct answer.">Analizza, coinvolge il committente e produce la risposta corretta.</p></div>
+          <div class="m-step"><div class="m-step__dot"></div><div class="n">04</div><h4 data-en="KB updated">KB aggiornata</h4><p data-en="Knowledge validated and re-indexed. Tracked and versioned.">Conoscenza validata e re-indicizzata. Tracciata e versionata.</p></div>
+          <div class="m-step"><div class="m-step__dot"></div><div class="n">05</div><h4 data-en="Answers better">Risponde meglio</h4><p data-en="From the next interaction it handles it autonomously. The error becomes learning.">Dalla prossima interazione gestisce in autonomia. L'errore diventa apprendimento.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD — data-free -->
+  <section class="section" id="dashboard" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="07 · Dashboard">07 · Dashboard</span>
+        <h2 class="display" data-en-html="The human who<br>corrects the machine">L'umano che<br />corregge la macchina</h2>
+        <p class="lead" data-en="Knowledge Leader Dashboard & Ticketing: every gap becomes a managed, tracked and resolved ticket. Real-time monitoring of coverage, quality and escalation.">Knowledge Leader Dashboard & Ticketing: ogni gap diventa un ticket gestito, tracciato e risolto. Monitoraggio in tempo reale di copertura, qualità ed escalation.</p>
+      </div>
+      <div class="console fancy-border" data-reveal data-tilt>
+        <div class="console__bar">
+          <span class="dash__dot"></span><span class="dash__dot"></span><span class="dash__dot"></span>
+          <span class="console__name">MUSA · Knowledge Console</span>
+          <span class="tag tag--live" style="margin-left:auto">Live</span>
+        </div>
+        <div class="console__body">
+          <div class="console__orb">
+            <div class="orb" aria-hidden="true">
+              <span class="orb__scan"></span>
+              <span class="orb__ring"></span><span class="orb__ring"></span><span class="orb__ring"></span>
+              <span class="orb__core"></span>
+            </div>
+            <div class="console__status">
+              <strong data-en="AI active">AI attiva</strong>
+              <span data-en="Listening · real time">In ascolto · tempo reale</span>
+            </div>
+          </div>
+          <div class="console__gauges">
+            <div class="rgauge" style="--off:36">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="KB coverage">Copertura KB</span>
+            </div>
+            <div class="rgauge" style="--off:23">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="Avg accuracy">Accuracy media</span>
+            </div>
+            <div class="rgauge g" style="--off:61">
+              <svg viewBox="0 0 84 84" aria-hidden="true"><circle class="rg-track" cx="42" cy="42" r="36"/><circle class="rg-arc" cx="42" cy="42" r="36"/></svg>
+              <span class="rg-label" data-en="Positive utility">Utilità positiva</span>
+            </div>
+          </div>
+        </div>
+        <div class="console__loop">
+          <div class="loop__line"><i></i></div>
+          <div class="loop__steps">
+            <span class="loop__step"><b></b><span data-en="Gap detected">Gap rilevato</span></span>
+            <span class="loop__step"><b></b><span data-en="Ticket opened">Ticket aperto</span></span>
+            <span class="loop__step"><b></b><span data-en="KB updated">KB aggiornata</span></span>
+            <span class="loop__step"><b></b><span data-en="Resolved">Risolto</span></span>
+          </div>
+        </div>
+      </div>
+      <p class="text-muted" style="text-align:center;font-size:.82rem;margin-top:18px" data-en="Demonstrative interface preview · real data stays in your protected environment">Anteprima dimostrativa dell'interfaccia · i dati reali restano nel tuo ambiente protetto</p>
+    </div>
+  </section>
+
+  <!-- GOVERNANCE -->
+  <section class="section" id="governance">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="08 · Governance">08 · Governance</span>
+        <h2 class="display" data-en-html="Every role sees the data<br>it needs. Always.">Ogni ruolo vede i dati<br />che gli servono. Sempre.</h2>
+      </div>
+      <div class="grid grid-2">
+        <div class="card spot" data-reveal>
+          <span class="tag">Supervisor / Operations</span>
+          <h3 style="margin:18px 0" data-en="Service operations">Operatività del servizio</h3>
+          <p class="text-muted" data-en="Live view on sessions, service queues and AI accuracy to act in real time.">Vista live su sessioni, code di servizio e accuracy dell'AI per intervenire in tempo reale.</p>
+          <div class="gov-row"><span data-en="Knowledge base coverage">Copertura knowledge base</span><span class="meta" data-en="Optimal">Ottimale</span></div>
+          <div class="gauge" data-reveal><i style="--w:84%"></i></div>
+          <div class="gov-row"><span data-en="AI accuracy">Accuracy AI</span><span class="meta" data-en="Growing">In crescita</span></div>
+          <div class="gauge g" data-reveal><i style="--w:88%"></i></div>
+        </div>
+        <div class="card spot" data-reveal data-delay="1">
+          <span class="tag">Management</span>
+          <h3 style="margin:18px 0" data-en="Business impact">Impatto business</h3>
+          <p class="text-muted" data-en="Synthetic indicators on usage, efficiency and service economics over the period.">Indicatori sintetici su utilizzo, efficienza ed economics del servizio nel periodo.</p>
+          <div class="gov-row"><span data-en="Usage rate">Tasso di utilizzo</span><span class="meta" data-en="High">Elevato</span></div>
+          <div class="gauge" data-reveal><i style="--w:92%"></i></div>
+          <div class="gov-row"><span data-en="Operational efficiency">Efficienza operativa</span><span class="meta" data-en="Improving">In miglioramento</span></div>
+          <div class="gauge g" data-reveal><i style="--w:76%"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="09 · Case study · Banking">09 · Case study · Settore bancario</span>
+        <h2 class="display" data-en-html="Managing operational<br>change at scale">Gestire il cambiamento<br />operativo su larga scala</h2>
+        <p class="lead" data-en="During the merger of two banks, MUSA unified the knowledge and accelerated operator onboarding, ensuring consistent answers throughout the transition.">Durante la fusione di due banche, MUSA ha unificato la knowledge e accelerato l'onboarding degli operatori, garantendo risposte coerenti durante tutta la transizione.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card spot" data-reveal><h3 style="font-size:1.2rem" data-en="The challenge">La sfida</h3><ul class="check mt-s"><li data-en="Knowledge fragmented across two banks with distinct procedures">Knowledge frammentata tra due banche con procedure distinte</li><li data-en="Continuous updates during the merger">Aggiornamenti continui durante la fusione</li><li data-en="Fast onboarding at scale">Onboarding rapido su larga scala</li></ul></div>
+        <div class="card spot" data-reveal data-delay="1"><h3 style="font-size:1.2rem" data-en="The MUSA method">Il metodo MUSA</h3><ul class="check mt-s"><li data-en="Intensive knowledge engineering and KB unification">Knowledge engineering intensivo e unificazione delle KB</li><li data-en="Real-time assistant for operators">Assistente real-time agli operatori</li><li data-en="Continuous feedback loop with weekly updates">Feedback loop continuo con aggiornamenti settimanali</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORGANIGRAMMA -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow" data-en="10 · Org chart">10 · Organigramma</span>
+        <h2 class="display" data-en="Who's behind MUSA">Chi c'è dietro MUSA</h2>
+        <p class="lead" data-en="The human ecosystem that makes the AI work and drives change.">L'ecosistema umano che fa funzionare l'AI e che sviluppa il cambiamento.</p>
+      </div>
+      <div class="org">
+        <div class="org__col" data-reveal>
+          <h4 data-en="Sales">Commerciale</h4>
+          <div class="org__role"><div class="r">Sales Manager</div><div class="d" data-en="Account & client development">Account & sviluppo clienti</div></div>
+          <div class="org__role"><div class="r">Account Executive</div><div class="d" data-en="Prospects and active clients">Prospect e clienti attivi</div></div>
+          <div class="org__role"><div class="r">Sales Support</div><div class="d" data-en="Offers, demos, materials">Offerte, demo, materiali</div></div>
+        </div>
+        <div class="org__col" data-reveal data-delay="1">
+          <h4 data-en="Operations">Operations</h4>
+          <div class="org__role"><div class="r">Operation Manager</div><div class="d" data-en="Contact center supervision">Supervisione contact center</div></div>
+          <div class="org__role"><div class="r">Supervisor</div><div class="d" data-en="Live dashboard monitoring">Monitoraggio live dashboard</div></div>
+          <div class="org__role"><div class="r" data-en="Operators">Operatori</div><div class="d" data-en="Interactions with MUSA support">Interazioni con supporto MUSA</div></div>
+        </div>
+        <div class="org__col" data-reveal data-delay="2">
+          <h4 data-en="Knowledge">Knowledge</h4>
+          <div class="org__role"><div class="r">Knowledge Leader</div><div class="d" data-en="KB governance and AI quality">Governance KB e qualità AI</div></div>
+          <div class="org__role"><div class="r">Knowledge Editor</div><div class="d" data-en="KB maintenance and updates">Manutenzione e aggiornamento</div></div>
+          <div class="org__role"><div class="r">Quality Analyst</div><div class="d" data-en="Accuracy, fallback, KL tickets">Accuracy, fallback, ticket</div></div>
+        </div>
+        <div class="org__col" data-reveal data-delay="3">
+          <h4 data-en="Tech & Infra">Tech & Infra</h4>
+          <div class="org__role"><div class="r">Tech Lead</div><div class="d" data-en="MUSA architecture and development">Architettura e sviluppo MUSA</div></div>
+          <div class="org__role"><div class="r">AI Engineer</div><div class="d" data-en="Models and AI pipelines">Modelli e pipeline AI</div></div>
+          <div class="org__role"><div class="r">Infra & DevOps</div><div class="d" data-en="Deploy, monitoring, security">Deploy, monitoraggio, sicurezza</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="container">
+      <div class="sec-head center" data-reveal>
+        <span class="eyebrow eyebrow--center" data-en="11 · FAQ">11 · Domande frequenti</span>
+        <h2 class="display" data-en="Everything you want to know">Tutto quello che vuoi sapere</h2>
+      </div>
+      <div class="faq" data-faq data-reveal>
+        <div class="faq__item">
+          <button class="faq__q" type="button" id="faqq-1" aria-expanded="false" aria-controls="faqa-1"><span data-en="Does MUSA replace operators?">MUSA sostituisce gli operatori?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-1" role="region" aria-labelledby="faqq-1"><div><p data-en="No: it's an operational copilot. It optimises human work and escalates to a person whenever needed. Control always stays with the team.">No: è un copilota operativo. Ottimizza il lavoro umano e fa escalation a una persona quando serve. Il controllo resta sempre al team.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" id="faqq-2" aria-expanded="false" aria-controls="faqa-2"><span data-en="Which channels does it work on?">Su quali canali funziona?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-2" role="region" aria-labelledby="faqq-2"><div><p data-en="Chat and voice, 24/7, across every digital channel — with a single intelligence behind all interactions.">Chat e voce, 24/7, su tutti i canali digitali, con un'unica intelligenza dietro ogni interazione.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" id="faqq-3" aria-expanded="false" aria-controls="faqa-3"><span data-en="What happens if MUSA doesn't know the answer?">Cosa succede se MUSA non sa rispondere?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-3" role="region" aria-labelledby="faqq-3"><div><p data-en="It never improvises: it opens a ticket, the Knowledge Leader updates the KB and MUSA learns for next time.">Non improvvisa mai: apre un ticket, il Knowledge Leader aggiorna la knowledge base e MUSA impara per la volta successiva.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" id="faqq-4" aria-expanded="false" aria-controls="faqa-4"><span data-en="Is our data safe?">I nostri dati sono al sicuro?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-4" role="region" aria-labelledby="faqq-4"><div><p data-en="Yes: data stays in your protected environment, with governance and tracking tailored to each role.">Sì: i dati restano nel tuo ambiente protetto, con governance e tracciamento dedicati a ogni ruolo.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" id="faqq-5" aria-expanded="false" aria-controls="faqa-5"><span data-en="How long does it take to go live?">Quanto tempo serve per partire?</span><span class="faq__ic" aria-hidden="true"></span></button>
+          <div class="faq__a" id="faqa-5" role="region" aria-labelledby="faqq-5"><div><p data-en="It depends on volumes and existing knowledge. We support you from onboarding all the way to continuous improvement.">Dipende dai volumi e dalla knowledge esistente. Ti accompagniamo dall'onboarding fino al miglioramento continuo.</p></div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -182,19 +429,25 @@
   <section class="section">
     <div class="container">
       <div class="cta" data-reveal>
-        <span class="eyebrow eyebrow--center">Parliamone</span>
-        <h2 class="display" style="margin:20px 0">Evolviamo insieme<br />la tua customer experience</h2>
-        <p class="lead" style="margin:0 auto">Raccontaci la tua sfida: progettiamo la soluzione su misura, con le persone e l'AI giusta.</p>
+        <span class="eyebrow eyebrow--center" data-en="Start now">Inizia ora</span>
+        <h2 class="display" style="margin:20px 0">MUSA<span class="dot">.</span></h2>
+        <p class="lead" style="margin:0 auto" data-en="A continuously evolving platform, built to accompany the transformation of customer care over time.">Una piattaforma in evoluzione continua, costruita per accompagnare la trasformazione del customer care nel tempo.</p>
         <div class="flex gap wrap" style="justify-content:center;margin-top:36px">
-          <a class="btn btn--primary" href="contatti.html">Contattaci <span class="ico">→</span></a>
-          <a class="btn btn--dark" href="musa.html">Demo MUSA</a>
+          <a class="btn btn--primary" data-magnetic href="https://www.cxcentax.com/contatti/" data-en="Request a demo">Richiedi una demo</a>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- BACK TO TOP -->
+  <button class="to-top" data-to-top type="button" aria-label="Torna su">
+    <svg viewBox="0 0 52 52"><circle class="track" cx="26" cy="26" r="24.5"></circle><circle class="prog" data-top-prog cx="26" cy="26" r="24.5"></circle></svg>
+    <b>↑</b>
+  </button>
+
   <div id="site-footer"></div>
   <script src="assets/js/components.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/musa.js"></script>
 </body>
 </html>

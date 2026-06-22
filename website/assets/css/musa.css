@@ -354,6 +354,18 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 /* MUSA wordmark inside the chat header (theme-aware) */
 .bot__logo{height:21px;width:auto;color:var(--white);flex:0 0 auto;margin-right:2px}
 
+/* single-page landing: minimal inline navbar (no burger / no overlay) */
+.musa-body .nav__burger{display:none}
+.musa-body .nav__menu{position:static;inset:auto;height:auto;transform:none;background:none;
+  backdrop-filter:none;padding:0;border:0;flex-direction:row;align-items:center;gap:8px}
+@media(max-width:560px){
+  .musa-body .nav__inner{padding:0 18px}
+  .musa-body .nav__logo img{height:26px}
+  .musa-body .nav__cta{padding:10px 15px;font-size:.84rem}
+  .musa-body .lang-switch{padding:4px 8px;margin-left:4px}
+  .musa-body .theme-btn{width:32px;height:32px;margin-left:4px}
+}
+
 /* ---- Reinvented data-free "Knowledge Console" ---- */
 .console{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);
   border-radius:24px;overflow:hidden;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
