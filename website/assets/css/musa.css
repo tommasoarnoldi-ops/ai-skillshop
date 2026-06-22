@@ -53,7 +53,7 @@ a:focus-visible,button:focus-visible,.tabs__btn:focus-visible,.faq__q:focus-visi
 /* =========================================================
    KINETIC TYPOGRAPHY — line-mask reveal on headings
    ========================================================= */
-.kin-line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.kin-line{display:block;overflow:hidden;padding-top:.2em;padding-bottom:.14em;margin-top:-.2em;margin-bottom:-.14em}
 .kin-inner{display:block;transform:translateY(115%);transition:transform .9s var(--ease)}
 .kin.in .kin-inner{transform:none}
 
@@ -340,10 +340,10 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 .musa-body{--font-display:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif;
   --font-body:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif}
 
-/* yellow SQUARE accent — smaller and slightly detached from the word */
-.dot{display:inline-block;width:.32em;height:.32em;background:var(--yellow);vertical-align:baseline;
-  margin-left:.14em;line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
-.m-title .dot{width:.26em;height:.26em;margin-left:.1em}
+/* yellow SQUARE accent — small and close to the word (deck lockup) */
+.dot{display:inline-block;width:.28em;height:.28em;background:var(--yellow);vertical-align:baseline;
+  margin-left:.06em;line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
+.m-title .dot{width:.2em;height:.2em;margin-left:.05em}
 
 /* dynamic rotating word: align to the surrounding text baseline */
 .rotator{vertical-align:baseline}
