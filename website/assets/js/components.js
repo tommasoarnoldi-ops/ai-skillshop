@@ -7,7 +7,7 @@
     <nav class="nav">
       <div class="nav__inner">
         <a class="nav__logo" href="${SITE}" aria-label="Centax">
-          <img src="assets/img/logo.svg" alt="Centax" />
+          <img src="assets/img/centax-logo.jpg" alt="Centax" />
         </a>
         <div class="nav__menu">
           <a class="btn btn--primary nav__cta" href="${CONTACT}">Richiedi una demo</a>
@@ -20,7 +20,7 @@
       <div class="container">
         <div class="footer__top">
           <div class="footer__brand">
-            <img src="assets/img/logo.svg" alt="Centax" style="height:30px" />
+            <span class="logo-plate"><img src="assets/img/centax-logo.jpg" alt="Centax" /></span>
             <p>Customer Experience evoluta dall'AI. Human + AI: la tecnologia amplifica, le persone fanno la differenza.</p>
             <div class="flex gap" style="margin-top:24px">
               <a class="btn btn--primary" href="${CONTACT}">Richiedi una demo</a>

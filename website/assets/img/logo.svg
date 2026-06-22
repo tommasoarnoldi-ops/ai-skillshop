@@ -1,7 +1,0 @@
-<svg width="190" height="40" viewBox="0 0 190 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Centax">
-  <!-- Yellow skewed badge -->
-  <path d="M10 4 H54 L48 36 H4 Z" fill="#F8E900"/>
-  <text x="16" y="29" font-family="'Space Grotesk', Arial, sans-serif" font-size="22" font-weight="700" fill="#0B0B0B" font-style="italic">CX</text>
-  <!-- Wordmark -->
-  <text x="62" y="29" font-family="'Space Grotesk', Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#FFFFFF" font-style="italic">CENTA<tspan fill="#F8E900">X</tspan></text>
-</svg>

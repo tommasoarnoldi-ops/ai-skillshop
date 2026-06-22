@@ -354,6 +354,12 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 /* MUSA wordmark inside the chat header (theme-aware) */
 .bot__logo{height:21px;width:auto;color:var(--white);flex:0 0 auto;margin-right:2px}
 
+/* official Centax logo (white-background asset) on a clean white plate */
+.nav__logo{background:#fff;padding:6px 11px;border-radius:9px;line-height:0;display:inline-flex;align-items:center}
+.nav__logo img{height:22px;width:auto;display:block}
+.logo-plate{background:#fff;padding:8px 13px;border-radius:10px;line-height:0;display:inline-flex;width:max-content}
+.logo-plate img{height:26px;width:auto;display:block}
+
 /* single-page landing: minimal inline navbar (no burger / no overlay) */
 .musa-body .nav__burger{display:none}
 .musa-body .nav__menu{position:static;inset:auto;height:auto;transform:none;background:none;

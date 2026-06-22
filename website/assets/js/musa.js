@@ -39,8 +39,6 @@
     try { localStorage.setItem('musa-theme', light ? 'light' : 'dark'); } catch (e) {}
     const meta = $('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', light ? '#F3F2EC' : '#0B0B0B');
-    const logo = light ? 'assets/img/logo-ink.svg' : 'assets/img/logo.svg';
-    $$('.nav__logo img, .footer__brand img').forEach((img) => (img.src = logo));
     if (themeBtn) {
       setUse(themeBtn, light ? '#icon-moon' : '#icon-sun');
       themeBtn.setAttribute('aria-label', light ? 'Passa al tema scuro' : 'Passa al tema chiaro');
