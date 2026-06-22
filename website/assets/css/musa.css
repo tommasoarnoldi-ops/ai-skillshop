@@ -343,7 +343,7 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 /* yellow SQUARE accent — small and close to the word (deck lockup) */
 .dot{display:inline-block;width:.28em;height:.28em;background:var(--yellow);vertical-align:baseline;
   margin-left:.06em;line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
-.m-title .dot{width:.2em;height:.2em;margin-left:.05em}
+.m-title .dot{width:.2em;height:.2em;margin-left:.11em}
 
 /* dynamic rotating word: align to the surrounding text baseline */
 .rotator{vertical-align:baseline}
