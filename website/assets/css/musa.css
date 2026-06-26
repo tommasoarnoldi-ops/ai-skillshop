@@ -419,9 +419,8 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 .rgauge svg{width:92px;height:92px;transform:rotate(-90deg)}
 .rg-track{fill:none;stroke:var(--surface-3);stroke-width:7}
 .rg-arc{fill:none;stroke:var(--yellow);stroke-width:7;stroke-linecap:round;stroke-dasharray:226;stroke-dashoffset:226;
-  filter:drop-shadow(0 0 5px rgba(248,233,0,.45));transition:stroke-dashoffset 1.6s var(--ease)}
+  filter:drop-shadow(0 0 5px rgba(248,233,0,.45))}
 .rgauge.g .rg-arc{stroke:var(--green);filter:drop-shadow(0 0 5px rgba(31,185,85,.45))}
-.console.in .rg-arc{stroke-dashoffset:var(--off,60)}
 .rg-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .console__loop{padding:26px 26px 30px;border-top:1px solid var(--line);position:relative}
 .loop__line{position:absolute;left:14%;right:14%;top:39px;height:2px;background:var(--line);overflow:hidden;border-radius:2px}

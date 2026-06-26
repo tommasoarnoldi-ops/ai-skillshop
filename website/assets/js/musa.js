@@ -222,6 +222,47 @@
   }), { threshold: 0.4 });
   $$('.gauge').forEach((g) => gio.observe(g));
 
+  /* ===== Console: numbers that grow in a loop (+ arcs) ===== */
+  (function consoleNumbers() {
+    const cns = $('.console');
+    if (!cns) return;
+    const nums = $$('[data-grow]', cns);
+    if (!nums.length) return;
+    const fmt = {
+      int: (v) => Math.round(v).toLocaleString('it-IT'),
+      pct: (v) => Math.round(v) + '%',
+      pct1: (v) => v.toFixed(1).replace('.', ',') + '%',
+      time: (v) => { const s = Math.round(v); return Math.floor(s / 60) + 'm ' + String(s % 60).padStart(2, '0') + 's'; },
+    };
+    const setVal = (el, v) => {
+      el.textContent = (fmt[el.dataset.fmt] || fmt.int)(v);
+      if (el.classList.contains('rgauge__v')) {
+        const arc = el.closest('.rgauge').querySelector('.rg-arc');
+        if (arc) arc.style.strokeDashoffset = (226 * (1 - Math.max(0, Math.min(100, v)) / 100)).toFixed(1);
+      }
+    };
+    const loop = (el) => {
+      const to = parseFloat(el.dataset.grow), from = parseFloat(el.dataset.from || '0');
+      const dur = 2200, hold = 1500;
+      const run = () => {
+        const start = performance.now();
+        const step = (now) => {
+          const p = Math.min((now - start) / dur, 1);
+          setVal(el, from + (to - from) * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(step);
+          else setTimeout(run, hold);
+        };
+        requestAnimationFrame(step);
+      };
+      run();
+    };
+    if (reduce) { nums.forEach((el) => setVal(el, parseFloat(el.dataset.grow))); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { nums.forEach(loop); io.disconnect(); }
+    }), { threshold: 0.3 });
+    io.observe(cns);
+  })();
+
   /* ===================================================
      KINETIC TYPOGRAPHY — line-mask reveal on headings
      =================================================== */
