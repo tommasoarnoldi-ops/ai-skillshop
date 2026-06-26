@@ -341,9 +341,9 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
   --font-body:Arial,"Liberation Sans","Helvetica Neue",Helvetica,sans-serif}
 
 /* yellow SQUARE accent — small and close to the word (deck lockup) */
-.dot{display:inline-block;width:.28em;height:.28em;background:var(--yellow);vertical-align:baseline;
+.dot{display:inline-block;width:.24em;height:.24em;background:var(--yellow);vertical-align:baseline;
   margin-left:.06em;line-height:0;overflow:hidden;text-indent:-9999px;border-radius:1px;-webkit-text-fill-color:transparent}
-.m-title .dot{width:.2em;height:.2em;margin-left:.11em}
+.m-title .dot{width:.17em;height:.17em;margin-left:.11em}
 
 /* dynamic rotating word: align to the surrounding text baseline */
 .rotator{vertical-align:baseline}
@@ -354,11 +354,31 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
 /* MUSA wordmark inside the chat header (theme-aware) */
 .bot__logo{height:21px;width:auto;color:var(--white);flex:0 0 auto;margin-right:2px}
 
-/* official Centax logo (white-background asset) on a clean white plate */
-.nav__logo{background:#fff;padding:6px 11px;border-radius:9px;line-height:0;display:inline-flex;align-items:center}
-.nav__logo img{height:22px;width:auto;display:block}
-.logo-plate{background:#fff;padding:8px 13px;border-radius:10px;line-height:0;display:inline-flex;width:max-content}
-.logo-plate img{height:26px;width:auto;display:block}
+/* official Centax logo (transparent) directly on the dark/light background */
+.nav__logo{display:inline-flex;align-items:center;line-height:0}
+.nav__logo img{height:26px;width:auto;display:block}
+.footer__logo{height:30px;width:auto;display:block}
+.footer__musa{display:inline-flex;align-items:center;gap:10px;margin-top:22px}
+.footer__musa img{width:38px;height:38px;display:block}
+.footer__musa span{font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--white)}
+.footer__musa b{color:var(--yellow);font-weight:700}
+.footer__legal{border-top:1px solid var(--line);margin-top:46px;padding-top:24px;color:var(--faint);font-size:.78rem;line-height:1.65}
+.footer__legal p{margin:0 0 4px}
+.footer__legal a{color:var(--muted)}
+.footer__legal a:hover{color:var(--yellow)}
+
+/* MUSA avatar (official logo) in the chat header */
+.bot__avatar-img{width:38px;height:38px;display:block;flex:0 0 auto}
+
+/* console: fake illustrative numbers */
+.rgauge__ring{position:relative;display:grid;place-items:center}
+.rgauge__v{position:absolute;font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--white)}
+.rgauge.g .rgauge__v{color:var(--green)}
+.console__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.console__stat{background:var(--surface);padding:16px 18px;text-align:center}
+.console__stat .v{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:var(--white)}
+.console__stat .v .u{color:var(--yellow)}
+.console__stat .l{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
 
 /* single-page landing: minimal inline navbar (no burger / no overlay) */
 .musa-body .nav__burger{display:none}
@@ -446,4 +466,5 @@ html{scrollbar-color:var(--surface-3) var(--bg-2)}
   .rgauge svg{width:78px;height:78px}
   .loop__line{display:none}
   .loop__steps{grid-template-columns:repeat(2,1fr);gap:20px}
+  .console__stats{grid-template-columns:1fr}
 }
