@@ -2,6 +2,7 @@
 (function () {
   const SITE = 'https://www.cxcentax.com';
   const CONTACT = SITE + '/contatti/';
+  const BOOKING = 'https://bookings.cloud.microsoft/book/Musa1@centaxtelecom.com/?ismsaljsauthenabled=true';
 
   document.getElementById('site-header').innerHTML = `
     <nav class="nav">
@@ -10,7 +11,7 @@
           <img src="assets/img/centax-logo.png" alt="Centax" />
         </a>
         <div class="nav__menu">
-          <a class="btn btn--primary nav__cta" href="${CONTACT}">Richiedi una demo</a>
+          <a class="btn btn--primary nav__cta" href="${BOOKING}" target="_blank" rel="noopener">Prenota una demo</a>
         </div>
       </div>
     </nav>`;
@@ -27,7 +28,7 @@
               <span>MUSA<b>.AI</b></span>
             </div>
             <div class="flex gap" style="margin-top:22px">
-              <a class="btn btn--primary" href="${CONTACT}">Richiedi una demo</a>
+              <a class="btn btn--primary" href="${BOOKING}" target="_blank" rel="noopener">Prenota una demo</a>
             </div>
           </div>
           <div class="footer__col">
